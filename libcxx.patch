@@ -1,0 +1,99 @@
+diff --color -Naur ./libcxx/include/memory ./libcxx/include/memory
+--- ./libcxx/include/__memory/temporary_buffer.h	2021-04-06 18:38:18.000000000 +0200
++++ ./libcxx_patched/include/__memory/temporary_buffer.h	2022-02-01 13:23:01.213701098 +0100
+@@ -73,7 +73,7 @@ template <class _Tp>
+ inline _LIBCPP_INLINE_VISIBILITY
+ void return_temporary_buffer(_Tp* __p) _NOEXCEPT
+ {
+-  _VSTD::__libcpp_deallocate_unsized((void*)__p, _LIBCPP_ALIGNOF(_Tp));
++  //_VSTD::__libcpp_deallocate_unsized((void*)__p, _LIBCPP_ALIGNOF(_Tp));
+ }
+ 
+
+ #if _LIBCPP_STD_VER <= 14 || defined(_LIBCPP_ENABLE_CXX17_REMOVED_AUTO_PTR)
+diff --color -Naur ./libcxx/include/__split_buffer ./libcxx_patched/include/__split_buffer
+--- ./libcxx/include/__split_buffer	2021-04-06 18:38:18.000000000 +0200
++++ ./libcxx_patched/include/__split_buffer	2022-01-24 22:10:29.377498125 +0100
+@@ -311,7 +311,7 @@
+ __split_buffer<_Tp, _Allocator>::__split_buffer(size_type __cap, size_type __start, __alloc_rr& __a)
+     : __end_cap_(nullptr, __a)
+ {
+-    __first_ = __cap != 0 ? __alloc_traits::allocate(__alloc(), __cap) : nullptr;
++    __first_ = __cap != 0 ? __alloc_traits::allocate(__alloc(), __cap) : ((pointer)nullptr);
+     __begin_ = __end_ = __first_ + __start;
+     __end_cap() = __first_ + __cap;
+ }
+diff --git a/src/ios.cpp b/src/ios.cpp
+--- ./libcxx/src/ios.cpp
++++ ./libcxx_patched/src/ios.cpp
+@@ -120,7 +120,7 @@ ios_base::__call_callbacks(event ev)
+ locale
+ ios_base::imbue(const locale& newloc)
+ {
+-    static_assert(sizeof(locale) == sizeof(__loc_), "");
++    //static_assert(sizeof(locale) == sizeof(__loc_), "");
+     locale& loc_storage = *reinterpret_cast<locale*>(&__loc_);
+     locale oldloc = loc_storage;
+     loc_storage = newloc;
+diff --git a/src/ios.cpp b/src/ios.cpp
+--- ./libcxx/include/ios
++++ ./libcxx_patched/include/ios
+@@ -374,6 +374,7 @@ private:
+     iostate         __exceptions_;
+     void*           __rdbuf_;
+     void*           __loc_;
++    void*           __loc_2;
+     event_callback* __fn_;
+     int*            __index_;
+     size_t          __event_size_;
+diff --git a/libcxx/include/__memory/shared_ptr.h b/libcxx/include/__memory/shared_ptr.h
+index 049d803d39e..562c0ef6f57 100644
+--- ./libcxx/include/__memory/shared_ptr.h
++++ ./libcxx/include/__memory/shared_ptr.h
+@@ -49,6 +49,7 @@
+ #include <__utility/move.h>
+ #include <__utility/swap.h>
+ #include <__verbose_abort>
++#include <cstdlib>
+ #include <cstddef>
+ #include <new>
+ #include <typeinfo>
+@@ -304,24 +305,34 @@ private:
+   using _CompressedPair = __compressed_pair<_Alloc, _Tp>;
+   struct _ALIGNAS_TYPE(_CompressedPair) _Storage {
+     char __blob_[sizeof(_CompressedPair)];
++    _LIBCPP_HIDE_FROM_ABI explicit _Storage() {
++      _CompressedPair* x = (_CompressedPair*) malloc(sizeof(_CompressedPair));
++      memcpy(__blob_, x, sizeof(_CompressedPair));
++      free(x);
++    }
+ 
+-    _LIBCPP_HIDE_FROM_ABI explicit _Storage(_Alloc&& __a) { ::new ((void*)__get_alloc()) _Alloc(std::move(__a)); }
++    _LIBCPP_HIDE_FROM_ABI explicit _Storage(_Alloc&& __a) {
++      _CompressedPair* x = (_CompressedPair*) malloc(sizeof(_CompressedPair));
++      memcpy(__blob_, x, sizeof(_CompressedPair)); 
++      ::new ((void*)__get_alloc()) _Alloc(std::move(__a)); 
++      free(x);
++    }
+     _LIBCPP_HIDE_FROM_ABI ~_Storage() { __get_alloc()->~_Alloc(); }
+     _LIBCPP_HIDE_FROM_ABI _Alloc* __get_alloc() _NOEXCEPT {
+       _CompressedPair* __as_pair                = reinterpret_cast<_CompressedPair*>(__blob_);
+       typename _CompressedPair::_Base1* __first = _CompressedPair::__get_first_base(__as_pair);
+-      _Alloc* __alloc                           = reinterpret_cast<_Alloc*>(__first);
++      _Alloc* __alloc                           = &__first->__get();
+       return __alloc;
+     }
+     _LIBCPP_HIDE_FROM_ABI _LIBCPP_NO_CFI _Tp* __get_elem() _NOEXCEPT {
+       _CompressedPair* __as_pair                 = reinterpret_cast<_CompressedPair*>(__blob_);
+       typename _CompressedPair::_Base2* __second = _CompressedPair::__get_second_base(__as_pair);
+-      _Tp* __elem                                = reinterpret_cast<_Tp*>(__second);
++      _Tp* __elem                                = &__second->__get();
+       return __elem;
+     }
+   };
+ 
+-  static_assert(_LIBCPP_ALIGNOF(_Storage) == _LIBCPP_ALIGNOF(_CompressedPair), "");
++  //static_assert(_LIBCPP_ALIGNOF(_Storage) == _LIBCPP_ALIGNOF(_CompressedPair), "");
+   //static_assert(sizeof(_Storage) == sizeof(_CompressedPair), "");
+   _Storage __storage_;
+ };

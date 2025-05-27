@@ -1,0 +1,6 @@
+== Casting verification status ==
+
+Unrelated Casting: 300861, Type_Confusion: 0, Missed: 0, Handled: 300861
+
+Derived Casting: 2520859864, Type_Confusion: 0, Missed: 0, Handled: 2520859864
+

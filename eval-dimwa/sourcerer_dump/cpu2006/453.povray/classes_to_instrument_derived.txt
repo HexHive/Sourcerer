@@ -1,0 +1,12 @@
+GuardObject
+ManglingParser
+Object_Struct
+Pattern_Struct
+Warps_Struct
+codecvt
+ctype
+facet
+moneypunct
+num_get
+num_put
+numpunctAbstractManglingParser

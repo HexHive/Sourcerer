@@ -1,0 +1,215 @@
+diff --color -Naur src2/xercesc/util/Platforms/AIX/AIXDefs.hpp src/xercesc/util/Platforms/AIX/AIXDefs.hpp
+--- src2/xercesc/util/Platforms/AIX/AIXDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/AIX/AIXDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -85,4 +85,5 @@
+ // ---------------------------------------------------------------------------
+ //  And define our file handle abstraction
+ // ---------------------------------------------------------------------------
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/BeOS/BeOSDefs.hpp src/xercesc/util/Platforms/BeOS/BeOSDefs.hpp
+--- src2/xercesc/util/Platforms/BeOS/BeOSDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/BeOS/BeOSDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -70,7 +70,8 @@
+ //  BeOS runs in little endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_LITTLE
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifndef BEOS
+ #define BEOS
+diff --color -Naur src2/xercesc/util/Platforms/FreeBSD/FreeBSDDefs.hpp src/xercesc/util/Platforms/FreeBSD/FreeBSDDefs.hpp
+--- src2/xercesc/util/Platforms/FreeBSD/FreeBSDDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/FreeBSD/FreeBSDDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -69,7 +69,8 @@
+ //  FreeBSD runs in little endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_LITTLE
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifndef FREEBSD
+ #define FREEBSD
+diff --color -Naur src2/xercesc/util/Platforms/HPUX/HPUXDefs.hpp src/xercesc/util/Platforms/HPUX/HPUXDefs.hpp
+--- src2/xercesc/util/Platforms/HPUX/HPUXDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/HPUX/HPUXDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -80,7 +80,8 @@
+ //  HPUX runs in big endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_BIG
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifndef HPUX
+ #define HPUX
+diff --color -Naur src2/xercesc/util/Platforms/IRIX/IRIXDefs.hpp src/xercesc/util/Platforms/IRIX/IRIXDefs.hpp
+--- src2/xercesc/util/Platforms/IRIX/IRIXDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/IRIX/IRIXDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -87,5 +87,5 @@
+ // ---------------------------------------------------------------------------
+ 
+ #define ENDIANMODE_BIG
+-typedef void* FileHandle;
+-
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/Interix/InterixDefs.hpp src/xercesc/util/Platforms/Interix/InterixDefs.hpp
+--- src2/xercesc/util/Platforms/Interix/InterixDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/Interix/InterixDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -68,5 +68,5 @@
+ // ---------------------------------------------------------------------------
+ 
+ #define ENDIANMODE_LITTLE
+-typedef void* FileHandle;
+-
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/Linux/LinuxDefs.hpp src/xercesc/util/Platforms/Linux/LinuxDefs.hpp
+--- src2/xercesc/util/Platforms/Linux/LinuxDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/Linux/LinuxDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -103,7 +103,8 @@
+     #endif
+ #endif /* __BYTE_ORDER */
+ 
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifndef LINUX
+ #define LINUX
+diff --color -Naur src2/xercesc/util/Platforms/MacOS/MacOSDefs.hpp src/xercesc/util/Platforms/MacOS/MacOSDefs.hpp
+--- src2/xercesc/util/Platforms/MacOS/MacOSDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/MacOS/MacOSDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -73,6 +73,7 @@
+ //	FileHandle is a pointer to XMLMacAbstractFile. Due to namespace
+ //	declaration issues, it is declared here as a void*.
+ // ---------------------------------------------------------------------------
+-typedef void*   FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #endif
+diff --color -Naur src2/xercesc/util/Platforms/NetBSD/NetBSDDefs.hpp src/xercesc/util/Platforms/NetBSD/NetBSDDefs.hpp
+--- src2/xercesc/util/Platforms/NetBSD/NetBSDDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/NetBSD/NetBSDDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -69,7 +69,8 @@
+ #define ENDIANMODE_BIG
+ #endif
+ 
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifndef NETBSD
+ #define NETBSD
+diff --color -Naur src2/xercesc/util/Platforms/OS2/OS2Defs.hpp src/xercesc/util/Platforms/OS2/OS2Defs.hpp
+--- src2/xercesc/util/Platforms/OS2/OS2Defs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/OS2/OS2Defs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -85,4 +85,5 @@
+ // ---------------------------------------------------------------------------
+ //  Define all the required platform types
+ // ---------------------------------------------------------------------------
+-typedef void*   FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/OS390/OS390Defs.hpp src/xercesc/util/Platforms/OS390/OS390Defs.hpp
+--- src2/xercesc/util/Platforms/OS390/OS390Defs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/OS390/OS390Defs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -83,7 +83,8 @@
+ //  OS390OE runs in big endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_BIG
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifdef EXM_OS390
+ #define APP_NO_THREADS
+diff --color -Naur src2/xercesc/util/Platforms/OS400/OS400Defs.hpp src/xercesc/util/Platforms/OS400/OS400Defs.hpp
+--- src2/xercesc/util/Platforms/OS400/OS400Defs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/OS400/OS400Defs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -80,4 +80,5 @@
+ // ---------------------------------------------------------------------------
+ //  And define our file handle abstraction
+ // ---------------------------------------------------------------------------
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/OpenServer/OpenServerDefs.hpp src/xercesc/util/Platforms/OpenServer/OpenServerDefs.hpp
+--- src2/xercesc/util/Platforms/OpenServer/OpenServerDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/OpenServer/OpenServerDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -66,5 +66,5 @@
+ //  OpenServer runs in little endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_LITTLE
+-typedef void* FileHandle;
+-
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/PTX/PTXDefs.hpp src/xercesc/util/Platforms/PTX/PTXDefs.hpp
+--- src2/xercesc/util/Platforms/PTX/PTXDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/PTX/PTXDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -68,9 +68,9 @@
+ //  Dynix/PTX runs in little endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_LITTLE
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifndef PTX
+ #define PTX
+ #endif
+-
+diff --color -Naur src2/xercesc/util/Platforms/Tandem/TandemDefs.hpp src/xercesc/util/Platforms/Tandem/TandemDefs.hpp
+--- src2/xercesc/util/Platforms/Tandem/TandemDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/Tandem/TandemDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -80,5 +80,5 @@
+ //  Tandem machines runs in big endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_BIG
+-typedef void* FileHandle;
+-
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/Tru64/Tru64Defs.hpp src/xercesc/util/Platforms/Tru64/Tru64Defs.hpp
+--- src2/xercesc/util/Platforms/Tru64/Tru64Defs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/Tru64/Tru64Defs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -67,7 +67,8 @@
+ // ---------------------------------------------------------------------------
+ // Define all the required platform types.
+ // ---------------------------------------------------------------------------
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;
+ 
+ #ifndef TRU64
+ #define	TRU64
+diff --color -Naur src2/xercesc/util/Platforms/UnixWare/UnixWareDefs.hpp src/xercesc/util/Platforms/UnixWare/UnixWareDefs.hpp
+--- src2/xercesc/util/Platforms/UnixWare/UnixWareDefs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/UnixWare/UnixWareDefs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -86,7 +86,5 @@
+ //  UnixWare runs in little endian mode
+ // ---------------------------------------------------------------------------
+ #define ENDIANMODE_LITTLE
+-typedef void* FileHandle;
+-
+-
+-
++#include <stdio.h>
++typedef FILE* FileHandle;
+diff --color -Naur src2/xercesc/util/Platforms/Win32/Win32Defs.hpp src/xercesc/util/Platforms/Win32/Win32Defs.hpp
+--- src2/xercesc/util/Platforms/Win32/Win32Defs.hpp	2024-02-14 22:00:09.388608291 +0000
++++ src/xercesc/util/Platforms/Win32/Win32Defs.hpp	2024-02-14 22:03:32.853525704 +0000
+@@ -86,4 +86,5 @@
+ //  Define all the required platform types. For Win32, void* is interoperable
+ //  with the HANDLE type.
+ // ---------------------------------------------------------------------------
+-typedef void* FileHandle;
++#include <stdio.h>
++typedef FILE* FileHandle;

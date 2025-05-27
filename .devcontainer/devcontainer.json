@@ -1,0 +1,65 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/docker-existing-dockerfile
+{
+	"name": "Type++ Docker",
+
+	// Sets the run context to one level up instead of the .devcontainer folder.
+	"context": "..",
+
+	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	"dockerFile": "../Dockerfile",
+	"build": {
+		"target": "cpu_typepp_analysis"
+	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	
+	//"initializeCommand": "if [ ! \"$(docker ps -a | grep ccache)\" ]; then docker create -v /mnt/ccache:/ccache --name ccache ubuntu:20.04; else true; fi; DISPLAY=:1 xhost +localhost;",
+	// Uncomment the next line to run commands after the container is created - for example installing curl.
+	//"onCreateCommand": "usermod --shell /bin/zsh root",
+	"postAttachCommand": "tmux",
+
+	"runArgs": ["--privileged", "--shm-size=64g"],
+
+	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
+	 //"--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+	// Uncomment to use the Docker CLI from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
+	// "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
+
+	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode"
+	"containerEnv": {
+    	"CCACHE_DIR": "/ccache",
+		"DISPLAY": ":1",
+		"LD_LIBRARY_PATH": "/home/nbadoux/libunwind-build/lib",
+	},
+	"mounts": [
+		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+		"source=/mnt/storage/ccache/,target=/ccache/,type=bind,consistency=cached",
+	],
+	"customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+		"llvm-vs-code-extensions.vscode-clangd",
+		"eamodio.gitlens-insiders",
+		"ms-python.python",
+		"jeff-hykin.better-cpp-syntax",
+		"GitHub.copilot",
+		"eamodio.gitlens",
+		"vscodevim.vim"
+	],
+    }
+  },
+	"containerUser": "nbadoux",
+	"workspaceFolder": "/home/nbadoux/LLVM-typepp/",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home/nbadoux/LLVM-typepp,type=bind,consistency=cached",
+	"desktop-lite": {
+		"password": "vscode",
+		"webPort": "6080",
+		"vncPort": "5901"
+		
+	}
+}

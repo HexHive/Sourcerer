@@ -1,0 +1,58 @@
+u (Src) N5boost6tuples5tupleIiiP7UCTNodeNS0_9null_typeES4_S4_S4_S4_S4_S4_EE to (Dst): 'boost::tuples::cons<int, boost::tuples::cons<int, boost::tuples::cons<UCTNode *, boost::tuples::null_type> > >' ==
+File: /tmp/cpu2017/541.leela_r/include/c++/v1/__memory/allocator.h Ln: 108 Col: 20
+	 Call Stack:
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(__report_type_confusion+0x5d9) [0x55c21998e269]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x70770) [0x55c2199d1770]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x703f7) [0x55c2199d13f7]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x70321) [0x55c2199d1321]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6dfeb) [0x55c2199cefeb]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5cad0) [0x55c2199bdad0]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d46c) [0x55c2199be46c]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d6ec) [0x55c2199be6ec]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5f82b) [0x55c2199c082b]
+		/lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca) [0x7fb436c151ca]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b) [0x7fb436c1528b]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(_start+0x25) [0x55c21998d815]
+u (Src) N5boost6tuples5tupleIiiP7UCTNodeNS0_9null_typeES4_S4_S4_S4_S4_S4_EE to (Dst): 'boost::tuples::cons<int, boost::tuples::cons<int, boost::tuples::cons<UCTNode *, boost::tuples::null_type> > >' ==
+File: /tmp/cpu2017/541.leela_r/include/c++/v1/__memory/allocator.h Ln: 108 Col: -1
+	 Call Stack:
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(__report_type_confusion+0x5d9) [0x55c21998e269]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x70770) [0x55c2199d1770]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x703f7) [0x55c2199d13f7]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x70321) [0x55c2199d1321]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6e01f) [0x55c2199cf01f]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5cad0) [0x55c2199bdad0]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d46c) [0x55c2199be46c]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d6ec) [0x55c2199be6ec]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5f82b) [0x55c2199c082b]
+		/lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca) [0x7fb436c151ca]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b) [0x7fb436c1528b]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(_start+0x25) [0x55c21998d815]
+u (Src) N5boost6tuples5tupleIiiP7UCTNodeNS0_9null_typeES4_S4_S4_S4_S4_S4_EE to (Dst): 'boost::tuples::cons<int, boost::tuples::cons<int, boost::tuples::cons<UCTNode *, boost::tuples::null_type> > >' ==
+File: /tmp/cpu2017/541.leela_r/include/c++/v1/__memory/temporary_buffer.h Ln: 59 Col: 21
+	 Call Stack:
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(__report_type_confusion+0x5d9) [0x55c21998e269]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6e77e) [0x55c2199cf77e]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6e2a9) [0x55c2199cf2a9]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6e05b) [0x55c2199cf05b]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5cad0) [0x55c2199bdad0]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d46c) [0x55c2199be46c]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d6ec) [0x55c2199be6ec]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5f82b) [0x55c2199c082b]
+		/lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca) [0x7fb436c151ca]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b) [0x7fb436c1528b]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(_start+0x25) [0x55c21998d815]
+u (Src) N5boost6tuples5tupleIiiP7UCTNodeNS0_9null_typeES4_S4_S4_S4_S4_S4_EE to (Dst): 'boost::tuples::cons<int, boost::tuples::cons<int, boost::tuples::cons<UCTNode *, boost::tuples::null_type> > >' ==
+File: /tmp/cpu2017/541.leela_r/include/c++/v1/__memory/temporary_buffer.h Ln: 59 Col: -1
+	 Call Stack:
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(__report_type_confusion+0x5d9) [0x55c21998e269]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6e77e) [0x55c2199cf77e]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6e2a9) [0x55c2199cf2a9]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x6e05b) [0x55c2199cf05b]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5cad0) [0x55c2199bdad0]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d46c) [0x55c2199be46c]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5d6ec) [0x55c2199be6ec]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(+0x5f82b) [0x55c2199c082b]
+		/lib/x86_64-linux-gnu/libc.so.6(+0x2a1ca) [0x7fb436c151ca]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x8b) [0x7fb436c1528b]
+		../run_base_refrate_mytest-m64.0000/leela_r_base.mytest-m64(_start+0x25) [0x55c21998d815]

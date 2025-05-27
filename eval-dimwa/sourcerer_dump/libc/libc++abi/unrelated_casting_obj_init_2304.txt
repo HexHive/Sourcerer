@@ -1,0 +1,6 @@
+__cxa_exception
+__cxa_dependent_exception
+__cxa_exception
+__cxa_dependent_exception
+_Unwind_Exception
+__cxa_dependent_exception

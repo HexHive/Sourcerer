@@ -1,0 +1,84 @@
+diff --color -Naur llvm-project-13.0.0b/libcxx/include/ios llvm-project-13.0.0/libcxx/include/ios
+--- llvm-project-13.0.0b/libcxx/include/ios	2021-09-24 16:18:10.000000000 +0000
++++ llvm-project-13.0.0/libcxx/include/ios	2024-12-18 14:17:04.897595329 +0000
+@@ -373,7 +373,7 @@
+     iostate         __rdstate_;
+     iostate         __exceptions_;
+     void*           __rdbuf_;
+-    void*           __loc_;
++    locale           __loc_;
+     event_callback* __fn_;
+     int*            __index_;
+     size_t          __event_size_;
+diff --color -Naur llvm-project-13.0.0b/libcxx/include/__split_buffer llvm-project-13.0.0/libcxx/include/__split_buffer
+--- llvm-project-13.0.0b/libcxx/include/__split_buffer	2021-09-24 16:18:10.000000000 +0000
++++ llvm-project-13.0.0/libcxx/include/__split_buffer	2024-12-18 11:29:27.327685546 +0000
+@@ -312,7 +312,7 @@
+ __split_buffer<_Tp, _Allocator>::__split_buffer(size_type __cap, size_type __start, __alloc_rr& __a)
+     : __end_cap_(nullptr, __a)
+ {
+-    __first_ = __cap != 0 ? __alloc_traits::allocate(__alloc(), __cap) : nullptr;
++    __first_ = __cap != 0 ? __alloc_traits::allocate(__alloc(), __cap) : ((pointer)nullptr);
+     __begin_ = __end_ = __first_ + __start;
+     __end_cap() = __first_ + __cap;
+ }
+diff --color -Naur llvm-project-13.0.0b/libcxxabi/src/cxa_exception.cpp llvm-project-13.0.0/libcxxabi/src/cxa_exception.cpp
+--- llvm-project-13.0.0b/libcxxabi/src/cxa_exception.cpp	2021-09-24 16:18:10.000000000 +0000
++++ llvm-project-13.0.0/libcxxabi/src/cxa_exception.cpp	2024-12-18 11:29:27.327685546 +0000
+@@ -479,18 +479,18 @@
+ * Otherwise delete the exception and pop the catch stack to empty.
+ */
+ void __cxa_end_catch() {
+-  static_assert(sizeof(__cxa_exception) == sizeof(__cxa_dependent_exception),
+-                "sizeof(__cxa_exception) must be equal to "
+-                "sizeof(__cxa_dependent_exception)");
+-  static_assert(__builtin_offsetof(__cxa_exception, referenceCount) ==
+-                    __builtin_offsetof(__cxa_dependent_exception,
+-                                       primaryException),
+-                "the layout of __cxa_exception must match the layout of "
+-                "__cxa_dependent_exception");
+-  static_assert(__builtin_offsetof(__cxa_exception, handlerCount) ==
+-                    __builtin_offsetof(__cxa_dependent_exception, handlerCount),
+-                "the layout of __cxa_exception must match the layout of "
+-                "__cxa_dependent_exception");
++  //static_assert(sizeof(__cxa_exception) == sizeof(__cxa_dependent_exception),
++  //              "sizeof(__cxa_exception) must be equal to "
++  //              "sizeof(__cxa_dependent_exception)");
++  //static_assert(__builtin_offsetof(__cxa_exception, referenceCount) ==
++  //                  __builtin_offsetof(__cxa_dependent_exception,
++  //                                     primaryException),
++  //              "the layout of __cxa_exception must match the layout of "
++  //              "__cxa_dependent_exception");
++  //static_assert(__builtin_offsetof(__cxa_exception, handlerCount) ==
++  //                  __builtin_offsetof(__cxa_dependent_exception, handlerCount),
++  //              "the layout of __cxa_exception must match the layout of "
++  //              "__cxa_dependent_exception");
+     __cxa_eh_globals* globals = __cxa_get_globals_fast(); // __cxa_get_globals called in __cxa_begin_catch
+     __cxa_exception* exception_header = globals->caughtExceptions;
+     // If we've rethrown a foreign exception, then globals->caughtExceptions
+diff --color -Naur llvm-project-13.0.0b/libcxxabi/src/cxa_exception.h llvm-project-13.0.0/libcxxabi/src/cxa_exception.h
+--- llvm-project-13.0.0b/libcxxabi/src/cxa_exception.h	2021-09-24 16:18:10.000000000 +0000
++++ llvm-project-13.0.0/libcxxabi/src/cxa_exception.h	2024-12-18 11:29:27.327685546 +0000
+@@ -126,14 +126,14 @@
+                   sizeof(__cxa_dependent_exception),
+               "propagationCount has wrong negative offset");
+ #elif defined(__LP64__) || defined(_WIN64)
+-static_assert(offsetof(__cxa_exception, adjustedPtr) +
+-                      sizeof(_Unwind_Exception) + sizeof(void*) ==
+-                  sizeof(__cxa_exception),
+-              "adjustedPtr has wrong negative offset");
+-static_assert(offsetof(__cxa_dependent_exception, adjustedPtr) +
+-                      sizeof(_Unwind_Exception) + sizeof(void*) ==
+-                  sizeof(__cxa_dependent_exception),
+-              "adjustedPtr has wrong negative offset");
++//static_assert(offsetof(__cxa_exception, adjustedPtr) +
++//                      sizeof(_Unwind_Exception) + sizeof(void*) ==
++//                  sizeof(__cxa_exception),
++//              "adjustedPtr has wrong negative offset");
++//static_assert(offsetof(__cxa_dependent_exception, adjustedPtr) +
++//                      sizeof(_Unwind_Exception) + sizeof(void*) ==
++//                  sizeof(__cxa_dependent_exception),
++//              "adjustedPtr has wrong negative offset");
+ #else
+ static_assert(offsetof(__cxa_exception, referenceCount) +
+                       sizeof(_Unwind_Exception) + sizeof(void*) ==

@@ -1,0 +1,16 @@
+cpu2006|444.namd|ablation_baseline|0|223.07389
+cpu2006|447.dealII|ablation_baseline|0|578.623716
+cpu2006|450.soplex|ablation_baseline|0|179.829507
+cpu2006|453.povray|ablation_baseline|0|141.089657
+cpu2006|471.omnetpp|ablation_baseline|0|233.167097
+cpu2006|473.astar|ablation_baseline|0|281.68259
+cpu2006|483.xalancbmk|ablation_baseline|0|224.671222
+cpu2017|507.cactuBSSN_r|ablation_baseline|0|174.413453
+cpu2017|508.namd_r|ablation_baseline|0|149.053933
+cpu2017|510.parest_r|ablation_baseline|0|958.995452
+cpu2017|511.povray_r|ablation_baseline|0|526.954223
+cpu2017|520.omnetpp_r|ablation_baseline|0|592.084267
+cpu2017|523.xalancbmk_r|ablation_baseline|0|464.755188
+cpu2017|526.blender_r|ablation_baseline|0|293.713403
+cpu2017|531.deepsjeng_r|ablation_baseline|0|253.128643
+cpu2017|541.leela_r|ablation_baseline|0|825.401597

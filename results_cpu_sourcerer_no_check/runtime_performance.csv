@@ -1,0 +1,16 @@
+cpu2006|444.namd|ablation_sourcerer_no_check|0|220.817888
+cpu2006|447.dealII|ablation_sourcerer_no_check|0|585.122849
+cpu2006|450.soplex|ablation_sourcerer_no_check|0|200.374351
+cpu2006|453.povray|ablation_sourcerer_no_check|0|146.376244
+cpu2006|471.omnetpp|ablation_sourcerer_no_check|0|233.139417
+cpu2006|473.astar|ablation_sourcerer_no_check|0|329.53683
+cpu2006|483.xalancbmk|ablation_sourcerer_no_check|0|226.441906
+cpu2017|507.cactuBSSN_r|ablation_sourcerer_no_check|0|173.804121
+cpu2017|508.namd_r|ablation_sourcerer_no_check|0|149.168123
+cpu2017|510.parest_r|ablation_sourcerer_no_check|0|974.27735
+cpu2017|511.povray_r|ablation_sourcerer_no_check|0|574.294874
+cpu2017|520.omnetpp_r|ablation_sourcerer_no_check|0|589.079108
+cpu2017|523.xalancbmk_r|ablation_sourcerer_no_check|0|510.364254
+cpu2017|526.blender_r|ablation_sourcerer_no_check|0|309.41202
+cpu2017|531.deepsjeng_r|ablation_sourcerer_no_check|0|251.439854
+cpu2017|541.leela_r|ablation_sourcerer_no_check|0|824.974431

@@ -1,0 +1,149 @@
+// -*- C++ -*-
+//===----------------------------- map ------------------------------------===//
+//
+// Part of the LLVM Project, under the Apache License v2.0 with LLVM Exceptions.
+// See https://llvm.org/LICENSE.txt for license information.
+// SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+//
+//===----------------------------------------------------------------------===//
+
+#ifndef _LIBCPP_MAP
+#define _LIBCPP_MAP
+
+
+#include <__config>
+#include <__tree>
+#include <__node_handle>
+#include <memory>
+#include <type_traits>
+#include <version>
+
+#if !defined(_LIBCPP_HAS_NO_PRAGMA_SYSTEM_HEADER)
+#pragma GCC system_header
+#endif
+
+_LIBCPP_BEGIN_NAMESPACE_STD
+
+template <class _Key, class _CP, class _Compare>
+class __map_value_compare
+    : private _Compare
+{
+public:
+    __map_value_compare() : _Compare() {}
+    __map_value_compare(_Compare c) : _Compare(c) {}
+    const _Compare& key_comp() const _NOEXCEPT {return *this;}
+    bool operator()(const _CP& __x, const _CP& __y) const
+        {return static_cast<const _Compare&>(*this)(__x.__get_value().first, __y.__get_value().first);}
+    bool operator()(const _CP& __x, const _Key& __y) const
+        {return static_cast<const _Compare&>(*this)(__x.__get_value().first, __y);}
+    bool operator()(const _Key& __x, const _CP& __y) const
+        {return static_cast<const _Compare&>(*this)(__x, __y.__get_value().first);}
+
+};
+
+template <class _Allocator>
+class __map_node_destructor
+{
+    typedef _Allocator                          allocator_type;
+    typedef allocator_traits<allocator_type>    __alloc_traits;
+
+public:
+    typedef typename __alloc_traits::pointer    pointer;
+    allocator_type& __na_;
+    bool __first_constructed;
+    bool __second_constructed;
+
+    explicit __map_node_destructor(allocator_type& __na) {}
+
+    __map_node_destructor(__tree_node_destructor<allocator_type>&& __x)  { }
+
+    void operator()(pointer __p) {}
+};
+
+template <class _Key, class _Tp, class _Compare, class _Allocator>
+    class map;
+
+template <class _Key, class _Tp>
+struct __value_type
+{
+    typedef _Key                                     key_type;
+    typedef _Tp                                      mapped_type;
+    typedef pair<const key_type, mapped_type>        value_type;
+
+private:
+    value_type __cc;
+
+public:
+    _LIBCPP_INLINE_VISIBILITY
+    value_type& __get_value() { return __cc; }
+    _LIBCPP_INLINE_VISIBILITY
+    const value_type& __get_value() const { return __cc; }
+
+   __value_type();
+   __value_type(__value_type const&);
+   __value_type& operator=(__value_type const&);
+   ~__value_type();
+};
+
+
+
+
+template <class _Key, class _Tp, class _Compare = less<_Key>,
+          class _Allocator = allocator<pair<const _Key, _Tp> > >
+class  map
+{
+public:
+    // types:
+    typedef _Key                                     key_type;
+    typedef _Tp                                      mapped_type;
+    typedef pair<const key_type, mapped_type>        value_type;
+    typedef typename __identity<_Compare>::type      key_compare;
+    typedef typename __identity<_Allocator>::type    allocator_type;
+    typedef value_type&                              reference;
+    typedef const value_type&                        const_reference;
+    typedef _VSTD::__value_type<key_type, mapped_type>             __value_type;
+    typedef __map_value_compare<key_type, __value_type, key_compare> __vc;
+    typedef typename __rebind_alloc_helper<allocator_traits<allocator_type>,
+                                                 __value_type>::type __allocator_type;
+    typedef __tree<__value_type, __vc, __allocator_type>   __base;
+    typedef typename __base::__node_traits                 __node_traits;
+    typedef allocator_traits<allocator_type>               __alloc_traits;
+    typedef typename __alloc_traits::pointer               pointer;
+    typedef typename __alloc_traits::const_pointer         const_pointer;
+    typedef typename __alloc_traits::size_type             size_type;
+    typedef typename __alloc_traits::difference_type       difference_type;
+    typedef typename __base::__node                    __node;
+    typedef typename __base::__node_allocator          __node_allocator;
+    typedef typename __base::__node_pointer            __node_pointer;
+    typedef typename __base::__node_base_pointer       __node_base_pointer;
+    typedef typename __base::__parent_pointer          __parent_pointer;
+
+    typedef __map_node_destructor<__node_allocator> _Dp;
+    typedef unique_ptr<__node, _Dp> __node_holder;
+
+    __base __tree_;
+
+    map() : __tree_(__vc(key_compare())) {}
+
+
+
+
+    void operator[](const key_type& __k){
+        __parent_pointer __parent;
+        __node_base_pointer& __child = __tree_.__find_equal(__parent, __k);
+        __node_pointer __r = static_cast<__node_pointer>(__child);
+        if (__child == nullptr)
+        {
+        __node_allocator& __na = __tree_.__node_alloc();
+        __node_holder __h(__node_traits::allocate(__na, 1), _Dp(__na));
+            __tree_.__insert_node_at(__parent, __child, static_cast<__node_base_pointer>(__h.get()));
+            __r = __h.release();
+        }
+    }
+};
+
+
+
+_LIBCPP_END_NAMESPACE_STD
+
+#endif  // _LIBCPP_MAP

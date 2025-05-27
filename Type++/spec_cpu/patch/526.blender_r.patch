@@ -1,0 +1,419 @@
+diff --color -Naur orig/blender/source/blender/blenlib/BLI_listbase.h src/blender/source/blender/blenlib/BLI_listbase.h
+--- orig/blender/source/blender/blenlib/BLI_listbase.h	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/blenlib/BLI_listbase.h	2025-01-09 03:33:56.367921292 +0000
+@@ -59,6 +59,7 @@
+ 
+ void BLI_freelistN(struct ListBase *listbase) ATTR_NONNULL(1);
+ void BLI_addtail(struct ListBase *listbase, void *vlink) ATTR_NONNULL(1);
++void BLI_addtail2(struct ListBase *listbase, void *vlink) ATTR_NONNULL(1);
+ void BLI_remlink(struct ListBase *listbase, void *vlink) ATTR_NONNULL(1);
+ bool BLI_remlink_safe(struct ListBase *listbase, void *vlink) ATTR_NONNULL(1);
+ void *BLI_pophead(ListBase *listbase) ATTR_NONNULL(1);
+@@ -70,6 +71,7 @@
+ void BLI_sortlist(struct ListBase *listbase, int (*cmp)(const void *, const void *)) ATTR_NONNULL(1, 2);
+ void BLI_sortlist_r(ListBase *listbase, void *thunk, int (*cmp)(void *, const void *, const void *)) ATTR_NONNULL(1, 3);
+ void BLI_freelist(struct ListBase *listbase) ATTR_NONNULL(1);
++int BLI_countlist2(const struct ListBase *listbase) ATTR_WARN_UNUSED_RESULT ATTR_NONNULL(1);
+ int BLI_countlist(const struct ListBase *listbase) ATTR_WARN_UNUSED_RESULT ATTR_NONNULL(1);
+ void BLI_freelinkN(struct ListBase *listbase, void *vlink) ATTR_NONNULL(1);
+ 
+diff --color -Naur orig/blender/source/blender/blenlib/intern/listbase.c src/blender/source/blender/blenlib/intern/listbase.c
+--- orig/blender/source/blender/blenlib/intern/listbase.c	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/blenlib/intern/listbase.c	2025-01-09 20:43:39.919503944 +0000
+@@ -98,6 +98,23 @@
+ 	listbase->last = link;
+ }
+ 
++/**
++ * Appends \a vlink (assumed to begin with a Link) onto listbase.
++ */
++void BLI_addtail2(ListBase *listbase, void *vlink)
++{
++	Link2 *link = vlink;
++
++	if (link == NULL) return;
++
++	link->next = NULL;
++	link->prev = listbase->last;
++
++	if (listbase->last) ((Link2 *)listbase->last)->next = link;
++	if (listbase->first == NULL) listbase->first = link;
++	listbase->last = link;
++}
++
+ 
+ /**
+  * Removes \a vlink from \a listbase. Assumes it is linked into there!
+@@ -358,6 +375,23 @@
+ /**
+  * Removes and disposes of the entire contents of \a listbase using guardedalloc.
+  */
++void BLI_freelistN2(ListBase *listbase)
++{
++	Link2 *link, *next;
++	
++	link = listbase->first;
++	while (link) {
++		next = link->next;
++		MEM_freeN(link);
++		link = next;
++	}
++
++	BLI_listbase_clear(listbase);
++}
++
++/**
++ * Removes and disposes of the entire contents of \a listbase using guardedalloc.
++ */
+ void BLI_freelistN(ListBase *listbase)
+ {
+ 	Link *link, *next;
+@@ -372,6 +406,23 @@
+ 	BLI_listbase_clear(listbase);
+ }
+ 
++/**
++ * Returns the number of elements in \a listbase.
++ */
++int BLI_countlist2(const ListBase *listbase)
++{
++	Link2 *link;
++	int count = 0;
++	
++	if (listbase) {
++		link = listbase->first;
++		while (link) {
++			count++;
++			link = link->next;
++		}
++	}
++	return count;
++}
+ 
+ /**
+  * Returns the number of elements in \a listbase.
+diff --color -Naur orig/blender/source/blender/makesdna/DNA_listBase.h src/blender/source/blender/makesdna/DNA_listBase.h
+--- orig/blender/source/blender/makesdna/DNA_listBase.h	2016-06-03 15:09:38.000000000 +0000
++++ src/blender/source/blender/makesdna/DNA_listBase.h	2025-01-09 03:17:00.803980098 +0000
+@@ -58,6 +58,14 @@
+ 	struct Link *next, *prev;
+ } Link;
+ 
++/* generic - all structs which are put into linked lists begin with this */
++typedef struct Link2 {
++#ifdef IS_TYPEXX
++    void *_vptrLink;
++#endif
++	struct Link2 *next, *prev;
++} Link2;
++
+ 
+ /* simple subclass of Link--use this when it is not worth defining a custom one... */
+ typedef struct LinkData {
+@@ -77,4 +85,3 @@
+ #endif
+ 
+ #endif
+-
+diff --color -Naur orig/blender/source/blender/render/intern/include/rayobject.h src/blender/source/blender/render/intern/include/rayobject.h
+--- orig/blender/source/blender/render/intern/include/rayobject.h	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/include/rayobject.h	2025-01-09 01:23:18.490606949 +0000
+@@ -76,6 +76,9 @@
+  * intersection tests. */
+ 
+ typedef struct RayFace {
++#ifdef IS_TYPEXX
++    void *_vptrRayFace;
++#endif
+ 	float v1[4], v2[4], v3[4], v4[3];
+ 	int quad;
+ 	void *ob;
+@@ -93,6 +96,9 @@
+  * render structures. */
+ 
+ typedef struct VlakPrimitive {
++#ifdef IS_TYPEXX
++    uintptr_t _vptrVlakPrimitive;
++#endif
+ 	struct ObjectInstanceRen *ob;
+ 	struct VlakRen *face;
+ } VlakPrimitive;
+diff --color -Naur orig/blender/source/blender/render/intern/include/render_types.h src/blender/source/blender/render/intern/include/render_types.h
+--- orig/blender/source/blender/render/intern/include/render_types.h	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/include/render_types.h	2025-01-09 02:29:45.555728365 +0000
+@@ -343,6 +343,9 @@
+ } ObjectRen;
+ 
+ typedef struct ObjectInstanceRen {
++#ifdef IS_TYPEXX
++    void* _vptrObjectInstanceRen;
++#endif
+ 	struct ObjectInstanceRen *next, *prev;
+ 
+ 	ObjectRen *obr;
+@@ -398,6 +401,9 @@
+ } RadFace;
+ 
+ typedef struct VlakRen {
++#ifdef IS_TYPEXX
++    uintptr_t _vptrVlakRen;
++#endif
+ 	struct VertRen *v1, *v2, *v3, *v4;	/* keep in order for ** addressing */
+ 	float n[3];
+ 	struct Material *mat;
+@@ -664,4 +670,3 @@
+ #define R_TRANSFORMED		(1|2)
+ 
+ #endif /* __RENDER_TYPES_H__ */
+-
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/bvh.h src/blender/source/blender/render/intern/raytrace/bvh.h
+--- orig/blender/source/blender/render/intern/raytrace/bvh.h	2015-10-29 19:46:43.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/bvh.h	2025-01-09 01:23:18.490606949 +0000
+@@ -395,7 +395,7 @@
+ 	Tree *obj = (Tree *)MEM_callocN(sizeof(Tree), "BVHTree");
+ 	assert(RE_rayobject_isAligned(obj)); /* RayObject API assumes real data to be 4-byte aligned */
+ 	
+-	obj->rayobj.api = bvh_get_api<Tree>(DFS_STACK_SIZE);
++	obj->api = bvh_get_api<Tree>(DFS_STACK_SIZE);
+ 	obj->root = NULL;
+ 	
+ 	obj->node_arena = NULL;
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/rayobject.cpp src/blender/source/blender/render/intern/raytrace/rayobject.cpp
+--- orig/blender/source/blender/render/intern/raytrace/rayobject.cpp	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/rayobject.cpp	2025-01-09 01:49:35.282872531 +0000
+@@ -552,4 +552,3 @@
+ 		r->control.test_break = test_break;
+ 	}
+ }
+-
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/rayobject_instance.cpp src/blender/source/blender/render/intern/raytrace/rayobject_instance.cpp
+--- orig/blender/source/blender/render/intern/raytrace/rayobject_instance.cpp	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/rayobject_instance.cpp	2025-01-09 01:23:18.494606949 +0000
+@@ -62,8 +62,7 @@
+ 	RE_rayobject_instance_hint_bb
+ };
+ 
+-typedef struct InstanceRayObject {
+-	RayObject rayobj;
++typedef struct InstanceRayObject : RayObject {
+ 	RayObject *target;
+ 
+ 	void *ob; //Object represented by this instance
+@@ -80,7 +79,7 @@
+ 	InstanceRayObject *obj = (InstanceRayObject *)MEM_callocN(sizeof(InstanceRayObject), "InstanceRayObject");
+ 	assert(RE_rayobject_isAligned(obj) );  /* RayObject API assumes real data to be 4-byte aligned */
+ 
+-	obj->rayobj.api = &instance_api;
++	obj->api = &instance_api;
+ 	obj->target = target;
+ 	obj->ob = ob;
+ 	obj->target_ob = target_ob;
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/rayobject_internal.h src/blender/source/blender/render/intern/raytrace/rayobject_internal.h
+--- orig/blender/source/blender/render/intern/raytrace/rayobject_internal.h	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/rayobject_internal.h	2025-01-09 01:23:18.494606949 +0000
+@@ -116,6 +116,9 @@
+  */
+ 
+ struct RayObject {
++#ifdef IS_TYPEXX
++	uintptr_t _vptrRayObj;
++#endif
+ 	struct RayObjectAPI *api;
+ 	struct RayObjectControl control;
+ };
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/rayobject_octree.cpp src/blender/source/blender/render/intern/raytrace/rayobject_octree.cpp
+--- orig/blender/source/blender/render/intern/raytrace/rayobject_octree.cpp	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/rayobject_octree.cpp	2025-01-09 01:23:18.494606949 +0000
+@@ -65,10 +65,8 @@
+ 	struct Node *next;
+ } Node;
+ 
+-typedef struct Octree {
+-	RayObject rayobj;
+-
+-	struct Branch **adrbranch;
++struct Octree : RayObject {
++	struct Branch  **adrbranch;
+ 	struct Node **adrnode;
+ 	float ocsize;   /* ocsize: mult factor,  max size octree */
+ 	float ocfacx, ocfacy, ocfacz;
+@@ -82,7 +80,7 @@
+ 	RayFace **ro_nodes;
+ 	int ro_nodes_size, ro_nodes_used;
+ 	
+-} Octree;
++};
+ 
+ static int  RE_rayobject_octree_intersect(RayObject *o, Isect *isec);
+ static void RE_rayobject_octree_add(RayObject *o, RayObject *ob);
+@@ -481,7 +479,7 @@
+ 	Octree *oc = (Octree *)MEM_callocN(sizeof(Octree), "Octree");
+ 	assert(RE_rayobject_isAligned(oc) );  /* RayObject API assumes real data to be 4-byte aligned */
+ 	
+-	oc->rayobj.api = &octree_api;
++	oc->api = &octree_api;
+ 	
+ 	oc->ocres = ocres;
+ 	
+@@ -1095,6 +1093,3 @@
+ 	/* reached end, no intersections found */
+ 	return 0;
+ }	
+-
+-
+-
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/rayobject_qbvh.cpp src/blender/source/blender/render/intern/raytrace/rayobject_qbvh.cpp
+--- orig/blender/source/blender/render/intern/raytrace/rayobject_qbvh.cpp	2015-10-29 19:46:43.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/rayobject_qbvh.cpp	2025-01-09 01:23:18.494606949 +0000
+@@ -42,8 +42,7 @@
+ 
+ #define DFS_STACK_SIZE  256
+ 
+-struct QBVHTree {
+-	RayObject rayobj;
++struct QBVHTree : RayObject {
+ 
+ 	SVBVHNode *root;
+ 	MemArena *node_arena;
+@@ -56,7 +55,7 @@
+ template<>
+ void bvh_done<QBVHTree>(QBVHTree *obj)
+ {
+-	rtbuild_done(obj->builder, &obj->rayobj.control);
++	rtbuild_done(obj->builder, &obj->control);
+ 	
+ 	//TODO find a away to exactly calculate the needed memory
+ 	MemArena *arena1 = BLI_memarena_new(BLI_MEMARENA_STD_BUFSIZE, "qbvh arena");
+@@ -68,9 +67,9 @@
+ 
+ 	//Build and optimize the tree
+ 	//TODO do this in 1 pass (half memory usage during building)
+-	VBVHNode *root = BuildBinaryVBVH<VBVHNode>(arena1, &obj->rayobj.control).transform(obj->builder);
++	VBVHNode *root = BuildBinaryVBVH<VBVHNode>(arena1, &obj->control).transform(obj->builder);
+ 
+-	if (RE_rayobjectcontrol_test_break(&obj->rayobj.control)) {
++	if (RE_rayobjectcontrol_test_break(&obj->control)) {
+ 		BLI_memarena_free(arena1);
+ 		BLI_memarena_free(arena2);
+ 		return;
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/rayobject_svbvh.cpp src/blender/source/blender/render/intern/raytrace/rayobject_svbvh.cpp
+--- orig/blender/source/blender/render/intern/raytrace/rayobject_svbvh.cpp	2015-10-29 19:46:43.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/rayobject_svbvh.cpp	2025-01-09 01:23:18.494606949 +0000
+@@ -42,8 +42,7 @@
+ 
+ #define DFS_STACK_SIZE  256
+ 
+-struct SVBVHTree {
+-	RayObject rayobj;
++struct SVBVHTree : RayObject {
+ 
+ 	SVBVHNode *root;
+ 	MemArena *node_arena;
+@@ -66,7 +65,7 @@
+ template<>
+ void bvh_done<SVBVHTree>(SVBVHTree *obj)
+ {
+-	rtbuild_done(obj->builder, &obj->rayobj.control);
++	rtbuild_done(obj->builder, &obj->control);
+ 	
+ 	//TODO find a away to exactly calculate the needed memory
+ 	MemArena *arena1 = BLI_memarena_new(BLI_MEMARENA_STD_BUFSIZE, "svbvh arena");
+@@ -78,9 +77,9 @@
+ 
+ 	//Build and optimize the tree
+ 	if (0) {
+-		VBVHNode *root = BuildBinaryVBVH<VBVHNode>(arena1, &obj->rayobj.control).transform(obj->builder);
++		VBVHNode *root = BuildBinaryVBVH<VBVHNode>(arena1, &obj->control).transform(obj->builder);
+ 
+-		if (RE_rayobjectcontrol_test_break(&obj->rayobj.control)) {
++		if (RE_rayobjectcontrol_test_break(&obj->control)) {
+ 			BLI_memarena_free(arena1);
+ 			BLI_memarena_free(arena2);
+ 			return;
+@@ -99,9 +98,9 @@
+ 	else {
+ 		//Finds the optimal packing of this tree using a given cost model
+ 		//TODO this uses quite a lot of memory, find ways to reduce memory usage during building
+-		OVBVHNode *root = BuildBinaryVBVH<OVBVHNode>(arena1, &obj->rayobj.control).transform(obj->builder);
++		OVBVHNode *root = BuildBinaryVBVH<OVBVHNode>(arena1, &obj->control).transform(obj->builder);
+ 
+-		if (RE_rayobjectcontrol_test_break(&obj->rayobj.control)) {
++		if (RE_rayobjectcontrol_test_break(&obj->control)) {
+ 			BLI_memarena_free(arena1);
+ 			BLI_memarena_free(arena2);
+ 			return;
+diff --color -Naur orig/blender/source/blender/render/intern/raytrace/rayobject_vbvh.cpp src/blender/source/blender/render/intern/raytrace/rayobject_vbvh.cpp
+--- orig/blender/source/blender/render/intern/raytrace/rayobject_vbvh.cpp	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/raytrace/rayobject_vbvh.cpp	2025-01-09 01:23:18.494606949 +0000
+@@ -52,13 +52,14 @@
+ #include "bvh.h"
+ #include "vbvh.h"
+ 
++#include "rayobject_internal.h"
++
+ #include <queue>
+ #include <algorithm>
+ 
+ #define DFS_STACK_SIZE  256
+ 
+-struct VBVHTree {
+-	RayObject rayobj;
++struct VBVHTree : RayObject {
+ 	VBVHNode *root;
+ 	MemArena *node_arena;
+ 	float cost;
+@@ -78,7 +79,7 @@
+ template<>
+ void bvh_done<VBVHTree>(VBVHTree *obj)
+ {
+-	rtbuild_done(obj->builder, &obj->rayobj.control);
++	rtbuild_done(obj->builder, &obj->control);
+ 	
+ 	//TODO find a away to exactly calculate the needed memory
+ 	MemArena *arena1 = BLI_memarena_new(BLI_MEMARENA_STD_BUFSIZE, "vbvh arena");
+@@ -86,8 +87,8 @@
+ 	
+ 	//Build and optimize the tree
+ 	if (1) {
+-		VBVHNode *root = BuildBinaryVBVH<VBVHNode>(arena1, &obj->rayobj.control).transform(obj->builder);
+-		if (RE_rayobjectcontrol_test_break(&obj->rayobj.control)) {
++		VBVHNode *root = BuildBinaryVBVH<VBVHNode>(arena1, &obj->control).transform(obj->builder);
++		if (RE_rayobjectcontrol_test_break(&obj->control)) {
+ 			BLI_memarena_free(arena1);
+ 			return;
+ 		}
+diff --color -Naur orig/blender/source/blender/render/intern/source/renderdatabase.c src/blender/source/blender/render/intern/source/renderdatabase.c
+--- orig/blender/source/blender/render/intern/source/renderdatabase.c	2014-12-31 22:59:50.000000000 +0000
++++ src/blender/source/blender/render/intern/source/renderdatabase.c	2025-01-09 03:27:46.171941916 +0000
+@@ -1382,7 +1382,7 @@
+ 		obi->flag |= R_DUPLI_TRANSFORMED;
+ 	}
+ 
+-	BLI_addtail(&re->instancetable, obi);
++	BLI_addtail2(&re->instancetable, obi);
+ 
+ 	return obi;
+ }
+@@ -1394,7 +1394,7 @@
+ 	int tot;
+ 
+ 	/* convert list of object instances to an array for index based lookup */
+-	tot= BLI_countlist(&re->instancetable);
++	tot= BLI_countlist2(&re->instancetable);
+ 	re->objectinstance= MEM_callocN(sizeof(ObjectInstanceRen)*tot, "ObjectInstance");
+ 	re->totinstance= tot;
+ 	newlist.first= newlist.last= NULL;
+@@ -1405,7 +1405,7 @@
+ 
+ 		if (obi->obr) {
+ 			obi->prev= obi->next= NULL;
+-			BLI_addtail(&newlist, obi);
++			BLI_addtail2(&newlist, obi);
+ 			obi++;
+ 		}
+ 		else
+@@ -1492,4 +1492,3 @@
+ 
+ 	return flag;
+ }
+-

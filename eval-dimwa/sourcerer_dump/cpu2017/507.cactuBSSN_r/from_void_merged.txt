@@ -1,0 +1,17 @@
+_Rep_base
+_Unwind_Exception
+__call_once_param
+__class_type_info
+__cxa_dependent_exception
+__cxa_eh_globals
+__cxa_exception
+__i_node
+__thread_struct
+__tree_node
+basic_ostream
+basic_streambuf
+exception
+heap_node
+pair
+pthread_mutex_tBlockMeta
+smart_ptr

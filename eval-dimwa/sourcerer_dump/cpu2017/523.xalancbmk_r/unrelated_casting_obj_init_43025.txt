@@ -1,0 +1,6 @@
+XalanDOMString
+NextBlock
+NextBlock
+XalanDOMString
+XalanDOMString
+NextBlock

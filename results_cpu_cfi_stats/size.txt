@@ -1,0 +1,16 @@
+cpu2006|444.namd|cfi|1071128
+cpu2006|447.dealII|cfi|2400888
+cpu2006|450.soplex|cfi|1236880
+cpu2006|453.povray|cfi|2148520
+cpu2006|471.omnetpp|cfi|1660872
+cpu2006|473.astar|cfi|834792
+cpu2006|483.xalancbmk|cfi|8429688
+cpu2017|507.cactuBSSN_r|cfi|6105800
+cpu2017|508.namd_r|cfi|1429232
+cpu2017|510.parest_r|cfi|6624112
+cpu2017|511.povray_r|cfi|2146480
+cpu2017|520.omnetpp_r|cfi|4225536
+cpu2017|523.xalancbmk_r|cfi|9363800
+cpu2017|526.blender_r|cfi|26495624
+cpu2017|531.deepsjeng_r|cfi|876704
+cpu2017|541.leela_r|cfi|1096320

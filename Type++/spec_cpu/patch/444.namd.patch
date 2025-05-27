@@ -1,0 +1,20 @@
+diff --color -Naur src2/LJTable.C src/LJTable.C
+--- src2/LJTable.C	2024-05-02 08:19:41.007679368 +0000
++++ src/LJTable.C	2024-05-03 11:58:45.596490872 +0000
+@@ -6,6 +6,7 @@
+ 
+ #include "LJTable.h"
+ #include <string.h>
++#include <new>
+ 
+ //----------------------------------------------------------------------  
+ LJTable::LJTable()
+@@ -31,7 +32,7 @@
+   table_alloc = new char[2*table_dim*table_dim*sizeof(TableEntry) + 31];
+   char *table_align = table_alloc;
+   while ( (long)table_align % 32 ) table_align++;
+-  table = (TableEntry *) table_align;
++  table = new (table_align) TableEntry();
+ 
+   for (register int i=0; i < table_dim; i++)
+     for (register int j=i; j < table_dim; j++)

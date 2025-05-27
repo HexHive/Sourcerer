@@ -1,0 +1,32 @@
+diff --color -Naur src2/LJTable.C src/LJTable.C
+--- src2/LJTable.C	2024-04-25 10:09:52.493056550 +0000
++++ src/LJTable.C	2024-04-25 10:23:47.395854529 +0000
+@@ -6,6 +6,7 @@
+ 
+ #include "LJTable.h"
+ #include <string.h>
++#include <new>
+ 
+ //----------------------------------------------------------------------  
+ LJTable::LJTable()
+@@ -31,7 +32,7 @@
+   table_alloc = new char[2*table_dim*table_dim*sizeof(TableEntry) + 31];
+   char *table_align = table_alloc;
+   while ( (long)table_align % 32 ) table_align++;
+-  table = (TableEntry *) table_align;
++  table = new (table_align) TableEntry();
+ 
+   for (register int i=0; i < table_dim; i++)
+     for (register int j=i; j < table_dim; j++)
+diff --color -Naur src2/ResizeArrayRaw.h src/ResizeArrayRaw.h
+--- src2/ResizeArrayRaw.h	2024-04-25 10:09:52.493056550 +0000
++++ src/ResizeArrayRaw.h	2024-04-25 10:10:42.585224109 +0000
+@@ -58,7 +58,7 @@
+       unsigned char *tmpv = new unsigned char[size*sizeof(Elem)+31];
+       //Elem *tmpa = (Elem *)((((long)tmpv)+31L)&(-32L));
+       // Someday we might need this alternate form.
+-      Elem *tmpa = (Elem *)(tmpv+31 - (((long)(tmpv+31))&(31L)));
++      Elem *tmpa = new (tmpv+31 - (((long)(tmpv+31))&(31L))) Elem();
+       memcpy((void *)tmpa, (void *)array, sizeof(Elem)*arraySize);
+   
+       if (allocSize) delete[] varray;

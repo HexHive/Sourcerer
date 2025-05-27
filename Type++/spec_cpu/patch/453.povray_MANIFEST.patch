@@ -1,0 +1,44 @@
+5465,5466c5465,5466
+< 7461f88812c1aff993088c3bed66338a * 000096E5 benchspec/CPU2006/453.povray/src/bbox.cpp
+< 51cf76f3bb52399e492da1a192e59813 * 000010A3 benchspec/CPU2006/453.povray/src/bbox.h
+---
+> bff981c1e8a60f2f30ef3bbe8a10eb7e * 000096E5 benchspec/CPU2006/453.povray/src/bbox.cpp
+> 9f772a69cab5d5dfaa739a112d529690 * 000010A3 benchspec/CPU2006/453.povray/src/bbox.h
+5473,5474c5473,5474
+< 62770d96f64615160578fa1e4f7e86b0 * 00005A94 benchspec/CPU2006/453.povray/src/boxes.cpp
+< 61a16c58a8f322e25402af8d45d0b496 * 00000AF5 benchspec/CPU2006/453.povray/src/boxes.h
+---
+> 576821e58cd10efce69ff1b4282a1c3b * 00005A94 benchspec/CPU2006/453.povray/src/boxes.cpp
+> d9ab37c28f500cc1b6c4a9b177192bbe * 00000AF5 benchspec/CPU2006/453.povray/src/boxes.h
+5486c5486
+< e00b865a382522116106e9d60399befc * 00000BD6 benchspec/CPU2006/453.povray/src/cones.h
+---
+> 6427b7e261a93183cf29ef7d5d241426 * 00000BD6 benchspec/CPU2006/453.povray/src/cones.h
+5491c5491
+< 24254bec5d7d03d823af329b93501ef0 * 00000C62 benchspec/CPU2006/453.povray/src/csg.h
+---
+> b83949f262897c27cda82b1b07785065 * 00000C62 benchspec/CPU2006/453.povray/src/csg.h
+5514c5514
+< 67787d3596d80cb0b0b88af1d15c607e * 0000B15D benchspec/CPU2006/453.povray/src/frame.h
+---
+> 473901fdaeb0dca512e5e661ec892af2 * 0000B15D benchspec/CPU2006/453.povray/src/frame.h
+5572c5572
+< 5fe18e58ed3ca58b7cebcb4beb5cdc76 * 00000A5E benchspec/CPU2006/453.povray/src/planes.h
+---
+> e7095580cfbd9c40f40e03ad8f44191f * 00000A5E benchspec/CPU2006/453.povray/src/planes.h
+5609c5609
+< 81864c7fdc1db2de9cc6f0ea4425b857 * 00000B27 benchspec/CPU2006/453.povray/src/quadrics.h
+---
+> bdb3580d4e329ecd9f4791617fd6064f * 00000B27 benchspec/CPU2006/453.povray/src/quadrics.h
+5632c5632
+< 308e9a170f2ee64f11ad2910c94a5a6c * 00000B1F benchspec/CPU2006/453.povray/src/spheres.h
+---
+> 16cb4f0e7789de831378f770359aab3b * 00000B1F benchspec/CPU2006/453.povray/src/spheres.h
+5669c5669
+< a07b4f4b792a28515f1279330e5c76fa * 00000DE6 benchspec/CPU2006/453.povray/src/vlbuffer.h
+---
+> f5c1d9b99030c567ed26a0ac065f7a4e * 00000DE6 benchspec/CPU2006/453.povray/src/vlbuffer.h
+5671c5671
+< e870ab5ff44c6d5f431ba076722c06f2 * 00001129 benchspec/CPU2006/453.povray/src/warps.h
+---
+> 6a87269d77a648c0bf824dd2750d273d * 00001129 benchspec/CPU2006/453.povray/src/warps.h

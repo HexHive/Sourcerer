@@ -1,0 +1,10 @@
+== Casting verification status ==
+
+VPTR through constructor: 1262119
+
+Vptr Insertor Call: 1979569
+
+Unrelated Casting: 501062278, Type_Confusion: 3662, Missed: 0, Handled: 501058616
+
+Derived Casting: 2786017665, Type_Confusion: 581205, Missed: 0, Handled: 2785436460
+

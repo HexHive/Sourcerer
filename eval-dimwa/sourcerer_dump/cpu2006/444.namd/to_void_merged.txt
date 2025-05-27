@@ -1,0 +1,15 @@
+_Rep_base
+_Unwind_Exception
+__c_node
+__call_once_param
+__cxa_dependent_exception
+__cxa_eh_globals
+__cxa_exception
+__cxx_atomic_impl
+__i_node
+__thread_struct
+bad_exception
+basic_streambuf
+heap_node
+pair
+typeBlockMeta

@@ -1,0 +1,7 @@
+collect_classes
+instrumented
+cfi
+log
+*/Makefile
+*.out
+hextype_results

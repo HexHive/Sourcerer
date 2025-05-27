@@ -1,0 +1,8 @@
+INFO:merge class files:Classes to instrument: 143
+INFO:merge class files:Unique classes in from_void: 122 
+INFO:merge class files:Unique classes in to_void: 19
+INFO:merge class files:Classes in from_void: 127 
+INFO:merge class files:Classes in to_void: 138
+INFO:merge class files:Classes in derived: 17
+INFO:merge class files:Classes in unrelated: 4
+INFO:merge class files:Unique classes in unrelated: 4

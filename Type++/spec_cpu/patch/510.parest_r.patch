@@ -1,0 +1,53 @@
+diff --color -Naur src2/boost/function/function_base.hpp src/boost/function/function_base.hpp
+--- src2/boost/function/function_base.hpp	2024-05-08 08:44:33.134287329 +0000
++++ src/boost/function/function_base.hpp	2024-05-08 09:44:29.830816865 +0000
+@@ -600,6 +600,12 @@
+         void (*manager)(const function_buffer& in_buffer, 
+                         function_buffer& out_buffer, 
+                         functor_manager_operation_type op);
++        vtable_base(void (*m)(const function_buffer&, 
++                             function_buffer&, 
++                             functor_manager_operation_type)){
++                              manager = m;
++
++        }
+       };
+     } // end namespace function
+   } // end namespace detail
+diff --color -Naur src2/boost/function/function_template.hpp src/boost/function/function_template.hpp
+--- src2/boost/function/function_template.hpp	2024-05-08 08:44:33.130287314 +0000
++++ src/boost/function/function_template.hpp	2024-05-08 12:37:36.964334976 +0000
+@@ -642,6 +642,8 @@
+         }
+ 
+       public:
++        BOOST_FUNCTION_VTABLE(vtable_base* b, invoker_type inv) : base(b->manager), invoker(inv) { }
++        
+         vtable_base base;
+         invoker_type invoker;
+       };
+@@ -900,9 +902,9 @@
+       // static initialization. Otherwise, we will have a race
+       // condition here in multi-threaded code. See
+       // http://thread.gmane.org/gmane.comp.lib.boost.devel/164902/.
+-      static vtable_type stored_vtable = 
+-        { { &manager_type::manage }, &invoker_type::invoke };
+-
++      static detail::function::vtable_base* vb = new detail::function::vtable_base(&manager_type::manage);
++      static vtable_type stored_vtable = *new vtable_type(
++         vb, &invoker_type::invoke );
+       if (stored_vtable.assign_to(f, functor)) vtable = &stored_vtable.base;
+       else vtable = 0;
+     }
+@@ -927,8 +929,9 @@
+       // static initialization. Otherwise, we will have a race
+       // condition here in multi-threaded code. See
+       // http://thread.gmane.org/gmane.comp.lib.boost.devel/164902/.
+-      static vtable_type stored_vtable =
+-        { { &manager_type::manage }, &invoker_type::invoke };
++      static detail::function::vtable_base* vb = new detail::function::vtable_base(manager_type::manage);
++      static vtable_type stored_vtable = new detail::function::vtable_base(
++         vb, &invoker_type::invoke );
+ 
+       if (stored_vtable.assign_to_a(f, functor, a)) vtable = &stored_vtable.base;
+       else vtable = 0;

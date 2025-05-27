@@ -1,0 +1,7 @@
+# From host to guest
+script.sh
+test_native.cpp
+.gitignore
+.pytest_cache
+__pycache__
+

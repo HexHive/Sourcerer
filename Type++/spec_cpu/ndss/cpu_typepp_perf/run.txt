@@ -1,0 +1,16 @@
+cpu2006|444.namd|vtype
+cpu2006|447.dealII|vtype
+cpu2006|450.soplex|vtype
+cpu2006|453.povray|vtype
+cpu2006|471.omnetpp|vtype
+cpu2006|473.astar|vtype
+cpu2006|483.xalancbmk|vtype
+cpu2017|507.cactuBSSN_r|vtype
+cpu2017|508.namd_r|vtype
+cpu2017|510.parest_r|vtype
+cpu2017|511.povray_r|vtype
+cpu2017|526.blender_r|vtype
+cpu2017|520.omnetpp_r|vtype
+cpu2017|523.xalancbmk_r|vtype
+cpu2017|531.deepsjeng_r|vtype
+cpu2017|541.leela_r|vtype

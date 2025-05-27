@@ -1,0 +1,27 @@
+#diff --git a/modules/core/src/matrix_wrap.cpp b/modules/core/src/matrix_wrap.cpp
+#index b72fdbe784..ed8abb9ac6 100644
+#--- a/modules/core/src/matrix_wrap.cpp
+#+++ b/modules/core/src/matrix_wrap.cpp
+#@@ -756,7 +756,8 @@ int _InputArray::type(int i) const
+#     _InputArray::KindFlag k = kind();
+# 
+#     if( k == MAT )
+#-        return ((const Mat*)obj)->type();
+#+        
+#+        return (new(obj) Mat)->type();
+# 
+#     if( k == UMAT )
+#         return ((const UMat*)obj)->type();
+diff --git a/cmake/OpenCVCompilerOptions.cmake b/cmake/OpenCVCompilerOptions.cmake
+index 512e6d1abd..9835e8a1f8 100644
+--- a/cmake/OpenCVCompilerOptions.cmake
++++ b/cmake/OpenCVCompilerOptions.cmake
+@@ -138,7 +138,7 @@ if(CV_GCC OR CV_CLANG OR CV_ICX)
+     add_extra_compiler_option(-Wall)
+   endif()
+   add_extra_compiler_option(-Wreturn-type)
+-  add_extra_compiler_option(-Wnon-virtual-dtor)
++  add_extra_compiler_option(-Wno-non-virtual-dtor)
+   add_extra_compiler_option(-Waddress)
+   add_extra_compiler_option(-Wsequence-point)
+   add_extra_compiler_option(-Wformat)

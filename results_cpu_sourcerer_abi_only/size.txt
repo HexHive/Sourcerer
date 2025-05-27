@@ -1,0 +1,16 @@
+cpu2006|444.namd|sourcerer|1070640
+cpu2006|447.dealII|sourcerer|2922856
+cpu2006|450.soplex|sourcerer|1238272
+cpu2006|453.povray|sourcerer|1920584
+cpu2006|471.omnetpp|sourcerer|1630744
+cpu2006|473.astar|sourcerer|833432
+cpu2006|483.xalancbmk|sourcerer|9134888
+cpu2017|507.cactuBSSN_r|sourcerer|6146024
+cpu2017|508.namd_r|sourcerer|1431544
+cpu2017|510.parest_r|sourcerer|7702096
+cpu2017|511.povray_r|sourcerer|1940824
+cpu2017|520.omnetpp_r|sourcerer|4314232
+cpu2017|523.xalancbmk_r|sourcerer|9893808
+cpu2017|526.blender_r|sourcerer|26516560
+cpu2017|531.deepsjeng_r|sourcerer|876216
+cpu2017|541.leela_r|sourcerer|1194048

@@ -1,0 +1,499 @@
+diff --color -Naur src_original/bbox.cpp src_patched/bbox.cpp
+--- src_original/bbox.cpp	2024-02-20 12:28:44.276991779 +0000
++++ src_patched/bbox.cpp	2024-02-20 12:23:46.238756078 +0000
+@@ -50,7 +50,9 @@
+ #include "povmsend.h"
+ #include "spec_qsort.h"
+ 
++// #ifndef INSIDEPOV
+ BEGIN_POV_NAMESPACE
++// #endif
+ 
+ /*****************************************************************************
+ * Local preprocessor defines
+@@ -1898,4 +1900,7 @@
+   }
+ }
+ 
++// #ifndef INSIDEPOV
+ END_POV_NAMESPACE
++// #endif
++
+diff --color -Naur src_original/bbox.h src_patched/bbox.h
+--- src_original/bbox.h	2024-02-20 12:28:44.272991804 +0000
++++ src_patched/bbox.h	2024-02-20 12:23:46.238756078 +0000
+@@ -34,7 +34,10 @@
+ #ifndef BBOX_H
+ #define BBOX_H
+ 
+-BEGIN_POV_NAMESPACE
++// FLAVIO - MAYBE WILL BEING PROBLEM
++// #ifndef ININSIDEPOV
++// BEGIN_POV_NAMESPACE
++// #endif
+ 
+ /*****************************************************************************
+ * Global preprocessor defines
+@@ -117,6 +120,9 @@
+ 	a = b.Lengths[X] * b.Lengths[Y] * b.Lengths[Z];
+ }
+ 
+-END_POV_NAMESPACE
++// FLAVIO - MAYBE WILL BEING PROBLEM
++// #ifndef ININSIDEPOV
++// END_POV_NAMESPACE
++// #endif
+ 
+ #endif
+diff --color -Naur src_original/boxes.cpp src_patched/boxes.cpp
+--- src_original/boxes.cpp	2024-02-20 12:28:44.272991804 +0000
++++ src_patched/boxes.cpp	2024-02-20 12:23:46.238756078 +0000
+@@ -39,7 +39,9 @@
+ #include "matrices.h"
+ #include "objects.h"
+ 
++// #ifndef INSIDEPOV
+ BEGIN_POV_NAMESPACE
++// #endif
+ 
+ /*****************************************************************************
+ * Local preprocessor defines
+@@ -1198,4 +1200,6 @@
+   */
+ }
+ 
++// #ifndef INSIDEPOV
+ END_POV_NAMESPACE
++// #endif
+diff --color -Naur src_original/boxes.h src_patched/boxes.h
+--- src_original/boxes.h	2024-02-20 12:28:44.280991754 +0000
++++ src_patched/boxes.h	2024-02-20 12:23:46.238756078 +0000
+@@ -33,7 +33,9 @@
+ #ifndef BOXES_H
+ #define BOXES_H
+ 
++#ifndef ININSIDEPOV
+ BEGIN_POV_NAMESPACE
++#endif
+ 
+ /*****************************************************************************
+ * Global preprocessor defines
+@@ -49,9 +51,9 @@
+ 
+ typedef struct Box_Struct BOX;
+ 
+-struct Box_Struct
++/* OBJECT_FIELDS */
++struct Box_Struct : Object_Struct
+ {
+-  OBJECT_FIELDS
+   VECTOR bounds[2];
+ };
+ 
+@@ -75,6 +77,8 @@
+ BOX *Copy_Box (OBJECT *Object);
+ void Compute_Box_BBox (BOX *Box);
+ 
++#ifndef ININSIDEPOV
+ END_POV_NAMESPACE
++#endif
+ 
+ #endif
+diff --color -Naur src_original/cones.h src_patched/cones.h
+--- src_original/cones.h	2024-02-20 12:28:44.280991754 +0000
++++ src_patched/cones.h	2024-02-20 12:23:46.238756078 +0000
+@@ -50,9 +50,9 @@
+ typedef struct Cone_Struct CYLINDER;
+ typedef struct Cone_Struct CONE;
+ 
+-struct Cone_Struct
++/* OBJECT_FIELDS */
++struct Cone_Struct : public Object_Struct
+ {
+-  OBJECT_FIELDS
+   VECTOR apex;        /* Center of the top of the cone */
+   VECTOR base;        /* Center of the bottom of the cone */
+   DBL apex_radius;    /* Radius of the cone at the top */
+diff --color -Naur src_original/csg.h src_patched/csg.h
+--- src_original/csg.h	2024-02-20 12:28:44.276991779 +0000
++++ src_patched/csg.h	2024-02-20 12:23:46.238756078 +0000
+@@ -33,7 +33,9 @@
+ #ifndef CSG_H
+ #define CSG_H
+ 
++#ifndef INSIDEPOV
+ BEGIN_POV_NAMESPACE
++#endif
+ 
+ /*****************************************************************************
+ * Global preprocessor defines
+@@ -59,9 +61,9 @@
+ 
+ typedef struct CSG_Struct CSG;
+ 
+-struct CSG_Struct
++/* COMPOUND_FIELDS */
++struct CSG_Struct : public Compound_Object_Struct
+ {
+-  COMPOUND_FIELDS
+   int do_split;
+ };
+ 
+@@ -87,6 +89,8 @@
+ void Compute_CSG_BBox (OBJECT *Object);
+ void Determine_CSG_Textures(CSG *Csg, VECTOR IPoint, int *Count, TEXTURE **Textures, DBL *Weights);
+ 
++#ifndef INSIDEPOV
+ END_POV_NAMESPACE
++#endif
+ 
+ #endif
+diff --color -Naur src_original/frame.h src_patched/frame.h
+--- src_original/frame.h	2024-02-20 12:28:44.280991754 +0000
++++ src_patched/frame.h	2024-02-20 12:23:46.238756078 +0000
+@@ -1325,15 +1325,15 @@
+   TPATTERN_FIELDS
+ };
+ 
+-struct Pigment_Struct
++/* TPATTERN_FIELDS */
++struct Pigment_Struct : public Pattern_Struct
+ {
+-  TPATTERN_FIELDS
+   COLOUR Colour; 
+ };
+ 
+-struct Tnormal_Struct
++/* TPATTERN_FIELDS */
++struct Tnormal_Struct : public Pattern_Struct
+ {
+-  TPATTERN_FIELDS
+   SNGL Amount;
+   SNGL Delta; /* NK delta */
+ };
+@@ -1342,9 +1342,10 @@
+   TPATTERN_FIELDS      \
+   TEXTURE *Next_Material;
+ 
+-struct Texture_Struct
++/* TEXTURE_FIELDS */
++struct Texture_Struct : public Pattern_Struct
+ {
+-  TEXTURE_FIELDS
++  TEXTURE *Next_Material;
+   PIGMENT *Pigment;
+   TNORMAL *Tnormal;
+   FINISH *Finish;
+@@ -1375,9 +1376,9 @@
+   WARP_FIELDS
+ };
+ 
+-struct Turb_Struct
++/* WARP_FIELDS */
++struct Turb_Struct : public Warps_Struct
+ {
+-  WARP_FIELDS
+   VECTOR Turbulence;
+   int Octaves;
+   SNGL Lambda, Omega;
+@@ -1523,11 +1524,15 @@
+   OBJECT_FIELDS
+ };
+ 
+-struct Compound_Object_Struct
++/* COMPOUND_FIELDS */
++struct Compound_Object_Struct : public Object_Struct
+ {
+-  COMPOUND_FIELDS
++  OBJECT *Children;
+ };
+ 
++// FLAVIO NEW INCLUDES
++#define INSIDEPOV 1
++#include "csg.h"
+ 
+ typedef struct BBox_Tree_Struct BBOX_TREE;
+ 
+@@ -1547,6 +1552,8 @@
+   int x1, y1, x2, y2;
+ };
+ 
++#include "vlbuffer.h"
++
+ /*
+  * The following structure represent the bounding box hierarchy in 2d space.
+  * Because is_leaf, Object and Project are the first elements in both
+@@ -1554,18 +1561,19 @@
+  * a pointer is pointing.
+  */
+ 
+-struct Project_Tree_Node_Struct
+-{
+-  unsigned short is_leaf;
++/* unsigned short is_leaf; 
+   BBOX_TREE *Node;
+   PROJECT Project;
++ */
++struct Project_Tree_Node_Struct : public Project_Tree_Leaf_Struct
++{
+   unsigned short Entries;
+   PROJECT_TREE_NODE **Entry;
+ };
+ 
+-struct Light_Source_Struct
++/* COMPOUND_FIELDS */
++struct Light_Source_Struct : public CSG_Struct //  Compound_Object_Struct
+ {
+-  COMPOUND_FIELDS
+   COLOUR Colour;
+   VECTOR Direction, Center, Points_At, Axis1, Axis2;
+   DBL Coeff, Radius, Falloff;
+diff --color -Naur src_original/planes.h src_patched/planes.h
+--- src_original/planes.h	2024-02-20 12:28:44.276991779 +0000
++++ src_patched/planes.h	2024-02-20 12:23:46.238756078 +0000
+@@ -49,9 +49,9 @@
+ 
+ typedef struct Plane_Struct PLANE;
+ 
+-struct Plane_Struct
++/* OBJECT_FIELDS */
++struct Plane_Struct : public Object_Struct
+ {
+-  OBJECT_FIELDS
+   VECTOR Normal_Vector;
+   DBL    Distance;
+ };
+diff --color -Naur src_original/processrenderoptions.cpp src_patched/processrenderoptions.cpp
+--- src_original/processrenderoptions.cpp	2024-02-20 12:28:44.276991779 +0000
++++ src_patched/processrenderoptions.cpp	2024-02-20 12:23:46.234756101 +0000
+@@ -326,7 +326,7 @@
+ 			err = POVMSUtil_SetInt(obj, option->key, tolower(*param));
+ 			break;
+ 		case kPOVAttrib_IncludeIni:
+-		case kPOVAttrib_LibraryPath:
++		case kPOVAttrib_LibraryPath: {
+ 			POVMSAttribute attr;
+ 
+ 			if(err == kNoErr)
+@@ -366,7 +366,9 @@
+ 			if(err == kNoErr)
+ 				err = POVMSObject_Set(obj, &list, option->key);
+ 			break;
++		}
+ 		case kPOVAttrib_Declare:
++		{
+ 			POVMSObject decobj;
+ 
+ 			// create list if it isn't there
+@@ -410,12 +412,13 @@
+ 			if(err == kNoErr)
+ 				err = POVMSObject_Set(obj, &list, option->key);
+ 			break;
++		}
+ 		case kPOVAttrib_FatalErrorCommand:
+ 		case kPOVAttrib_PostFrameCommand:
+ 		case kPOVAttrib_PostSceneCommand:
+ 		case kPOVAttrib_PreFrameCommand:
+ 		case kPOVAttrib_PreSceneCommand:
+-		case kPOVAttrib_UserAbortCommand:
++		case kPOVAttrib_UserAbortCommand: 
+ 			POVMSObject cmdobj;
+ 
+ 			if(POVMSObject_Exist(obj, option->key) == kNoErr)
+@@ -514,7 +517,7 @@
+ 				err = POVMSUtil_SetInt(obj, option->key, chr);
+ 			}
+ 			break;
+-		case kPOVAttrib_LibraryPath:
++		case kPOVAttrib_LibraryPath: {
+ 			POVMSAttributeList list;
+ 			POVMSAttribute attr;
+ 
+@@ -548,6 +551,7 @@
+ 			if(err == kNoErr)
+ 				err = POVMSObject_Set(obj, &list, option->key);
+ 			break;
++		}
+ 		case kPOVAttrib_TestAbortCount:
+ 			if((*param) == 0)
+ 				break;
+@@ -598,7 +602,7 @@
+ 			break;
+ 		case kPOVAttrib_IncludeIni:
+ 			break;
+-		case kPOVAttrib_Declare:
++		case kPOVAttrib_Declare: {
+ 			POVMSObject decobj;
+ 
+ 			err = POVMSObject_Get(obj, &list, option->key);
+@@ -635,6 +639,7 @@
+ 				}
+ 			}
+ 			break;
++		}
+ 		case kPOVAttrib_LibraryPath:
+ 			err = POVMSObject_Get(obj, &list, option->key);
+ 			if(err != 0)
+diff --color -Naur src_original/quadrics.h src_patched/quadrics.h
+--- src_original/quadrics.h	2024-02-20 12:28:44.276991779 +0000
++++ src_patched/quadrics.h	2024-02-20 12:23:46.238756078 +0000
+@@ -51,9 +51,9 @@
+ 
+ typedef struct Quadric_Struct QUADRIC;
+ 
+-struct Quadric_Struct
++/* OBJECT_FIELDS */
++struct Quadric_Struct : public Object_Struct
+ {
+-  OBJECT_FIELDS
+   VECTOR Square_Terms;
+   VECTOR Mixed_Terms;
+   VECTOR Terms;
+diff --color -Naur src_original/spheres.h src_patched/spheres.h
+--- src_original/spheres.h	2024-02-20 12:28:44.268991829 +0000
++++ src_patched/spheres.h	2024-02-20 12:23:46.238756078 +0000
+@@ -48,14 +48,13 @@
+ 
+ typedef struct Sphere_Struct SPHERE;
+ 
+-struct Sphere_Struct
++/* OBJECT_FIELDS */
++struct Sphere_Struct : public Object_Struct
+ {
+-  OBJECT_FIELDS
+   VECTOR Center;
+   DBL    Radius;
+ };
+ 
+-
+ /*****************************************************************************
+ * Global variables
+ ******************************************************************************/
+diff --color -Naur src_original/vlbuffer.h src_patched/vlbuffer.h
+--- src_original/vlbuffer.h	2024-02-20 12:28:44.272991804 +0000
++++ src_patched/vlbuffer.h	2024-02-20 12:23:46.238756078 +0000
+@@ -36,7 +36,9 @@
+ #include "frame.h"
+ #include "bbox.h"
+ 
++#ifndef INSIDEPOV
+ BEGIN_POV_NAMESPACE
++#endif
+ 
+ /*****************************************************************************
+ * Global preprocessor defines
+@@ -115,6 +117,9 @@
+ 
+ void Destroy_Project_Tree (PROJECT_TREE_NODE *Node);
+ 
++#ifndef INSIDEPOV
+ END_POV_NAMESPACE
++#endif
++
+ 
+ #endif
+diff --color -Naur src_original/warps.h src_patched/warps.h
+--- src_original/warps.h	2024-02-20 12:28:44.276991779 +0000
++++ src_patched/warps.h	2024-02-20 12:23:46.238756078 +0000
+@@ -66,52 +66,52 @@
+ typedef struct Toroidal_Warp TOROIDAL;
+ typedef struct Planar_Warp PLANARW;
+ 
+-struct Toroidal_Warp
++/* WARP_FIELDS */
++struct Toroidal_Warp : public Warps_Struct
+ {
+-  WARP_FIELDS
+   VECTOR Orientation_Vector;
+   DBL DistExp;
+   DBL MajorRadius;
+ };
+ 
+-struct Cylindrical_Warp
++/* WARP_FIELDS */
++struct Cylindrical_Warp : public Warps_Struct
+ {
+-  WARP_FIELDS
+   VECTOR Orientation_Vector;
+   DBL DistExp;
+ };
+ 
+-struct Planar_Warp
++/* WARP_FIELDS */
++struct Planar_Warp : public Warps_Struct
+ {
+-  WARP_FIELDS
+   VECTOR Orientation_Vector;
+   DBL OffSet;
+ };
+ 
+-struct Spherical_Warp
++/* WARP_FIELDS */
++struct Spherical_Warp : public Warps_Struct
+ {
+-  WARP_FIELDS
+   VECTOR Orientation_Vector;
+   DBL DistExp;
+ };
+ 
+-struct Repeat_Warp
++/* WARP_FIELDS */
++struct Repeat_Warp : public Warps_Struct
+ {
+-  WARP_FIELDS
+   int Axis;
+   SNGL Width;
+   VECTOR Flip, Offset;
+ };
+ 
+-struct Trans_Warp
++/* WARP_FIELDS */
++struct Trans_Warp : public Warps_Struct
+ {
+-  WARP_FIELDS
+   TRANSFORM Trans;
+ };
+ 
+-struct Black_Hole_Warp
++/* WARP_FIELDS */
++struct Black_Hole_Warp : public Warps_Struct
+ {
+-  WARP_FIELDS
+   VECTOR      Center ;
+   VECTOR      Repeat_Vector ;
+   VECTOR      Uncertainty_Vector ;
+diff --color -Naur src2/lbuffer.cpp src/lbuffer.cpp
+--- src2/lbuffer.cpp	2024-04-28 21:43:56.159173635 +0000
++++ src/lbuffer.cpp	2024-04-28 23:07:18.108993305 +0000
+@@ -1084,7 +1084,7 @@
+       {
+         /* Allocate memory for new leaf in the light tree. */
+ 
+-        *Tree = (PROJECT_TREE_NODE *)POV_MALLOC(sizeof(PROJECT_TREE_LEAF), "light tree leaf");
++        *Tree = (PROJECT_TREE_NODE *)POV_MALLOC(sizeof(PROJECT_TREE_NODE), "light tree leaf");
+ 
+         /* Init new leaf. */
+ 
+diff --color -Naur src2/pov_mem.cpp src/pov_mem.cpp
+--- src2/pov_mem.cpp	2024-04-28 21:43:56.163173652 +0000
++++ src/pov_mem.cpp	2024-04-28 21:52:52.005469979 +0000
+@@ -364,14 +364,16 @@
+ 
+   totalsize = size + NODESIZE + (MEM_GUARD_SIZE * 2); /* number of bytes allocated in OS */
+ 
++#if defined(MEM_HEADER)
++  node = (MEMNODE *)MALLOC(totalsize);
++  block = node;
++#else
+   block = (void *)MALLOC(totalsize);
++#endif
+ 
+   if (block == NULL)
+     MAError(msg, size);
+ 
+-#if defined(MEM_HEADER)
+-  node = (MEMNODE *) block;
+-#endif
+ 
+ #if defined(MEM_TAG)
+   node->tag = MEMTAG_VALUE;

@@ -1,0 +1,5 @@
+__cxa_dependent_exception
+__cxa_exception
+locale
+smart_ptr_guts
+type_Unwind_Exception

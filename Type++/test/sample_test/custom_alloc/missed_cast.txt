@@ -1,0 +1,80 @@
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 70 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x42725f]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7f0cb06e70b3]
+		./a.out(_start+0x2e) [0x4044ee]
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 70 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x42725f]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7f3b0ddae0b3]
+		./a.out(_start+0x2e) [0x4044ee]
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 76 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x427275]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7fe3c195d0b3]
+		./a.out(_start+0x2e) [0x4044ee]
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 74 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x42725f]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7f7a228560b3]
+		./a.out(_start+0x2e) [0x4044ee]
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 74 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x42725f]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7f7c438200b3]
+		./a.out(_start+0x2e) [0x4044ee]
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 74 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x42725f]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7fbba2d2d0b3]
+		./a.out(_start+0x2e) [0x4044ee]
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 74 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x42725f]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7f4184d1e0b3]
+		./a.out(_start+0x2e) [0x4044ee]
+
+
+== Detect type confusion from base-to-derived cast ==
+	 type casting from (Src) invailed to (Dst): 'A' ==
+	 Filename: simple.cpp Line: 74 Column: 12
+	 Call Stack:
+		./a.out(__report_type_confusion+0x349) [0x404a29]
+		./a.out() [0x42725f]
+		/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xf3) [0x7f2baf0e90b3]
+		./a.out(_start+0x2e) [0x4044ee]

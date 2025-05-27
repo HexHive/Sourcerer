@@ -1,0 +1,4 @@
+MEM_CacheLimiterCClass
+MEM_CacheLimiterHandle
+MEM_CacheLimiterCClass
+MEM_CacheLimiterHandle

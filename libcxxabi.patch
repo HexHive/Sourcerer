@@ -1,0 +1,27 @@
+diff --git a/src/cxa_exception.h b/src/cxa_exception.h
+index 8c6c8bc..39df034 100644
+--- ./libcxxabi/src/cxa_exception.h	2021-04-06 18:38:18.000000000 +0200
++++ ./libcxxabi_patched/src/cxa_exception.h	2022-02-01 13:23:01.213701098 +0100
+@@ -126,14 +126,14 @@ static_assert(offsetof(__cxa_dependent_exception, propagationCount) +
+                   sizeof(__cxa_dependent_exception),
+               "propagationCount has wrong negative offset");
+ #elif defined(__LP64__) || defined(_WIN64)
+-static_assert(offsetof(__cxa_exception, adjustedPtr) +
+-                      sizeof(_Unwind_Exception) + sizeof(void*) ==
+-                  sizeof(__cxa_exception),
+-              "adjustedPtr has wrong negative offset");
+-static_assert(offsetof(__cxa_dependent_exception, adjustedPtr) +
+-                      sizeof(_Unwind_Exception) + sizeof(void*) ==
+-                  sizeof(__cxa_dependent_exception),
+-              "adjustedPtr has wrong negative offset");
++//static_assert(offsetof(__cxa_exception, adjustedPtr) +
++//                      sizeof(_Unwind_Exception) + sizeof(void*) ==
++//                  sizeof(__cxa_exception),
++//              "adjustedPtr has wrong negative offset");
++//static_assert(offsetof(__cxa_dependent_exception, adjustedPtr) +
++//                      sizeof(_Unwind_Exception) + sizeof(void*) ==
++//                  sizeof(__cxa_dependent_exception),
++//              "adjustedPtr has wrong negative offset");
+ #else
+ static_assert(offsetof(__cxa_exception, referenceCount) +
+                       sizeof(_Unwind_Exception) + sizeof(void*) ==

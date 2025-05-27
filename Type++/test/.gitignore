@@ -1,0 +1,9 @@
+casting_obj_init_*
+merged.txt
+mangled_name.txt
+total_result.txt
+type_confusion2.txt
+typehashinfo.txt
+profiling_out.txt
+
+missing_libc

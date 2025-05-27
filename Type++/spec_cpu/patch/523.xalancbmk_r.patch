@@ -1,0 +1,87 @@
+diff --color -Naur cpu2017_original/benchspec/CPU/523.xalancbmk_r/src/xalanc/Include/XalanList.hpp cpu2017_patched/benchspec/CPU/523.xalancbmk_r/src/xalanc/Include/XalanList.hpp
+--- xalancbmk_srr_original_new/xalanc/Include/XalanList.hpp	2010-11-23 05:58:25.000000000 +0100
++++ xalancbmk_srr_patched/xalanc/Include/XalanList.hpp	2022-09-24 01:18:35.232183066 +0200
+@@ -527,11 +527,11 @@
+ 		
+ 		assert(m_memoryManager != 0);
+ 
+-		void* pointer = m_memoryManager->allocate(theBytesNeeded);
++		Node* pointer = (Node*) m_memoryManager->allocate(theBytesNeeded);
+ 
+ 		assert( pointer != 0 );
+ 
+-		return (Node*) pointer;
++		return pointer;
+ 	}
+ 
+ 	
+diff --color -Naur cpu2017_original/benchspec/CPU/523.xalancbmk_r/src/xalanc/Include/XalanVector.hpp cpu2017_patched/benchspec/CPU/523.xalancbmk_r/src/xalanc/Include/XalanVector.hpp
+--- xalancbmk_src_original_new/xalanc/Include/XalanVector.hpp	2010-11-23 05:58:25.000000000 +0100
++++ xalancbmk_src_patched/xalanc/Include/XalanVector.hpp	2022-09-24 01:18:05.471226368 +0200
+@@ -941,11 +941,11 @@
+ 
+         assert (m_memoryManager != 0);
+ 
+-        void*   pointer = m_memoryManager->allocate(theBytesNeeded);
++        value_type*  pointer = (value_type*) m_memoryManager->allocate(theBytesNeeded);
+ 
+         assert(pointer != 0);
+ 
+-        return (value_type*) pointer;
++        return  pointer;
+     }
+ 
+     void
+diff --color -Naur cpu2017_original/benchspec/CPU/523.xalancbmk_r/src/xalanc/PlatformSupport/ReusableArenaBlock.hpp cpu2017_patched/benchspec/CPU/523.xalancbmk_r/src/xalanc/PlatformSupport/ReusableArenaBlock.hpp
+--- xalancbmk_src_original_new/xalanc/PlatformSupport/ReusableArenaBlock.hpp	2016-06-17 22:12:58.000000000 +0200
++++ xalancbmk_src_patched/xalanc/PlatformSupport/ReusableArenaBlock.hpp	2022-09-24 01:18:56.108855048 +0200
+@@ -72,13 +72,13 @@
+         }
+ 
+         static NextBlock*
+-        cast(void*  thePointer)
++        cast(ObjectType*  thePointer)
+         {
+             return reinterpret_cast<NextBlock*>(thePointer);
+         }
+ 
+         static const NextBlock*
+-        cast(const void*    thePointer)
++        cast(const ObjectType*   thePointer)
+         {
+             return reinterpret_cast<const NextBlock*>(thePointer);
+         }
+diff --color -Naur src2/xalanc/Include/XalanMap.hpp src/xalanc/Include/XalanMap.hpp
+--- src2/xalanc/Include/XalanMap.hpp	2024-04-26 08:06:10.423643434 +0000
++++ src/xalanc/Include/XalanMap.hpp	2024-04-26 08:06:38.795789893 +0000
+@@ -615,11 +615,11 @@
+ 
+         assert(m_memoryManager != 0);
+ 
+-        void*   pointer = m_memoryManager->allocate(theBytesNeeded);
++        value_type*   pointer = reinterpret_cast<value_type*>(m_memoryManager->allocate(theBytesNeeded));
+ 
+         assert(pointer != 0);
+ 
+-        return reinterpret_cast<value_type*>(pointer);
++        return pointer;
+     }
+ 
+     void
+diff --color -Naur src2/xalanc/Include/XalanMap.hpp src/xalanc/Include/XalanMap.hpp
+--- src2/xalanc/Include/XalanMap.hpp	2024-04-26 08:06:10.423643434 +0000
++++ src/xalanc/Include/XalanMap.hpp	2024-04-26 08:06:38.795789893 +0000
+@@ -615,11 +615,11 @@
+ 
+         assert(m_memoryManager != 0);
+ 
+-        void*   pointer = m_memoryManager->allocate(theBytesNeeded);
++        value_type*   pointer = reinterpret_cast<value_type*>(m_memoryManager->allocate(theBytesNeeded));
+ 
+         assert(pointer != 0);
+ 
+-        return reinterpret_cast<value_type*>(pointer);
++        return pointer;
+     }
+ 
+     void

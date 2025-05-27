@@ -1,0 +1,5 @@
+selenium
+psutil
+tabulate
+tqdm
+termcolor

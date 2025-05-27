@@ -1,0 +1,13 @@
+diff --color -Naur src2/include/cGH.h src/include/cGH.h
+--- src2/include/cGH.h	2024-04-29 10:24:02.361912341 +0000
++++ src/include/cGH.h	2024-04-29 10:24:07.937931151 +0000
+@@ -21,6 +21,9 @@
+ 
+ typedef struct _cGH
+ {
++#ifdef IS_TYPEXX
++  int* _vptr_cGH;
++#endif
+   int cctk_dim;
+   int cctk_iteration;
+ 
