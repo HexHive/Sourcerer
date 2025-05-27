@@ -13,7 +13,7 @@ The rest of this document will walk you trough replicating the results from our 
   author = {Badoux, Nicolas and Toffalini, Flavio and Payer, Mathias},
   month = jul,
   booktitle={International Conference on Detection of Intrusions and Malware, and Vulnerability Assessment},
-  title = {{Sourcerer: Channelling the void}},
+  title = {{Sourcerer: Channeling the void}},
   year = {2025}
 }
 ```
