@@ -1,5 +1,4 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/llvm/llvm-project/blob/release/19.x/LICENSE.TXT)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13687049.svg)](https://doi.org/10.5281/zenodo.13687049)
 
 
 # Sourcerer: Channeling the void
@@ -39,18 +38,7 @@ Instructions are available in [artifact.pdf](./artifact.pdf).
 
 ## Usage
 
-The most convenient way to use type++ is to enter the `typepp` container provided.
-
-To do that, first build the Docker image and run it. 
-```bash
-export DOCKER_BUILDKIT=1
-docker build . --target typepp -t typepp
-docker run -it typepp zsh
-```
-
-Once inside the Docker container, you will find the Clang binary in `/home/typeppUSER/build/bin/clang++`.
-
-A guide to the different options of type++ can be found in the [Type++](./Type++/README.md#usage) folder.
+Todo
 
 
 ## Troubleshooting
