@@ -32,9 +32,154 @@ experiments](./Type++/spec_cpu/run.py), and [get the results](./Type++/script/).
 The LLVM code is released under the Apache License v2.0 with LLVM Exceptions. The type++ code follows the same license. 
 
 
-## Artifact Evaluation
+## Artifact
 
 Instructions are available in [artifact.pdf](./artifact.pdf).
+
+The artifact contains the material to reproduce the results:
+
+- **Porting Effort** (Section 7.1 – Table 1)
+- **Performance Overhead** (Section 7.2 – Table 2)
+- **Source of Performance Overhead** (Section 7.3 – Table 3)
+- **Sourcerer as a Sanitizer for Fuzzing Campaigns** (Section 7.4 – Figure 1)
+
+This material is released under the Apache License 2.0, in line with the LLVM project Sourcerer builds upon.
+
+**1. Accessing the artifact**:  
+We release the artifact on a [public GitHub repository](https://github.com/HexHive/Sourcerer). The `main` branch contains the latest version of the code.
+
+**2. Hardware dependencies**:
+- Minimum: 16GB RAM for SPEC CPU evaluations
+- Recommended: 128GB RAM and 1TB disk
+
+**3. Software dependencies**:
+- Ubuntu 20.04
+- Docker
+- Active internet connection (for Chromium evaluation)
+- Installed: `curl`, `git`, `docker`, `pip`
+
+**4. Benchmarks**:
+- SPEC CPU 2006 and 2017 benchmarks ([SPEC CPU 2006](https://www.spec.org/cpu2006/), [SPEC CPU 2017](https://www.spec.org/cpu2017/))
+
+### Artifact Installation
+
+Clone the repository and build the Docker image:
+
+```bash
+REPO=https://github.com/HexHive/Sourcerer
+git clone $REPO --single-branch --branch main --depth 100 Sourcerer
+cd Sourcerer
+pip install -r requirements.txt
+```
+
+Each experiment is encapsulated in Docker containers. The \`Dockerfile\` is at the root of the repository. We do not provide support for running experiments outside Docker.
+
+### Experiment Workflow
+
+The artifact reproduces results from four experiments:
+
+1. **Compatibility** (extra classes to instrument over type++)
+2. **Performance Overhead** (SPEC CPU 2006 and 2017)
+3. **Ablation Study** (source of overhead)
+4. **Fuzzing Campaign** (on OpenCV)
+
+Scripts are provided to run experiments and generate the corresponding tables and figure. More details are in the repository’s \`README.md\`.
+
+### Major Claims
+
+- **(C1) Compatibility**:  
+  Sourcerer is compatible with C++ codebases with minor changes.  
+  → See Experiment E1, Table 1.
+
+- **(C2) Performance Overhead**:  
+  Sourcerer introduces negligible overhead while adding protection.  
+  → See Experiment E2, Table 2.
+
+- **(C3) Ablation Study**:  
+  Overhead analysis of Sourcerer’s components.  
+  → See Experiment E3, Table 3.
+
+- **(C4) Fuzzing Campaign**:  
+  Demonstrates Sourcerer in a fuzzing context.  
+  → See Experiment E4, Figure 1.
+
+### Evaluation
+
+#### Experiment 1 (E1) - Compatibility Analysis
+
+**[2 minutes human + 2 compute-hours]**
+
+Evaluate extra classes in SPEC CPU benchmarks.
+
+##### Preparation:
+Ensure both `.iso` benchmark files are in the repository root.
+
+##### Execution:
+```bash
+./table1.sh
+```
+
+##### Output:
+Logs and a table similar to Table 1.
+
+---
+
+#### Experiment 2 (E2) - Performance Overhead
+
+**[2 minutes human + 15 compute-hours]**
+
+Compare SPEC CPU performance with/without cast checking (Sourcerer vs LLVM-CFI).
+
+##### Preparation:
+Ensure both `.iso` benchmark files are in the repository root.
+
+##### Execution:
+```bash
+./table2.sh
+```
+
+##### Output:
+Logs and a table similar to Table 2. Expect ~10% variation in performance.
+
+---
+
+#### Experiment 3 (E3) - Ablation Study
+
+**[2 minutes human + 15 compute-hours]**
+
+Measure cost of individual components in the type checking process.
+
+##### Preparation:
+Ensure both `.iso` benchmark files are in the repository root.
+
+##### Execution:
+```bash
+./table3.sh
+```
+
+##### Output:
+Table similar to Table 3.
+
+---
+
+#### Experiment 4 (E4) - Fuzzing Campaign
+
+**[2 minutes human + 25 compute-hours]**
+
+Compare Sourcerer and ASan in a fuzzing campaign on OpenCV.
+
+##### Preparation:
+```bash
+./fig1_requirements.sh
+```
+
+##### Execution:
+```bash
+./fig1.sh
+```
+
+##### Output:
+Figures similar to Figure 1, saved in `fuzzing_pics`.
 
 ## Usage
 
